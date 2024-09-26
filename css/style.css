@@ -202,4 +202,36 @@ main > div:last-child a:hover{
     #form-wrapper {
         margin-top: 20px;
     }
-} 
+}
+    /* footer */
+#footer-wrapper{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+#footer-wrapper > div:first-child{
+    padding: 15px 30px;
+    border-bottom: 1px solid #dadce0;
+    font-size: 15px;
+    color: #70757a;
+}
+#footer-wrapper > div:last-child{
+    padding: 0 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    height: 46px;
+    align-items: center;
+}
+#footer-wrapper a{
+    color: #70757a;
+    font-size: 14px;
+    padding: 15px;
+    line-height: 16px;
+    white-space: nowrap;
+    text-decoration: none;
+}
+#footer-wrapper div a:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
