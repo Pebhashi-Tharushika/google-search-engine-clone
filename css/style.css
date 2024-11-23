@@ -1,22 +1,57 @@
+/* Default Light Theme */
+
 * {
     box-sizing: border-box;
 }
 
 html {
     font-family: Arial, Helvetica, sans-serif;
+    
 }
 
+/* ------------- header ----------- */
+
 header {
-    font-size: 13px;
+    font-size: 14px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    gap: 15px;
-    padding: 10px;
+    padding: 6px;
+    height: 60px;
+}
+
+header #nav-wrapper{
+    height: 48px;
+    min-width: auto;
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content:flex-end;
+}
+
+header #nav{
+    display: flex;
+    align-items: center;
+    padding-right: 4px;
+    padding-left: 32px;
+    height: 100%;
+}
+
+header #nav > div:first-child{
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding-right: 15px;
+    font: 13px/27px Roboto,Arial,sans-serif;
+}
+
+header #nav > div:first-child > a{
+    padding-left: 15px;
+    line-height: 24px;
 }
 
 header a {
-    color: black;
+    color: #1f1f1f;
     text-decoration: none;
 }
 
@@ -24,20 +59,86 @@ header a:hover {
     text-decoration: underline;
 }
 
+header #nav > div:nth-child(2){
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+#apps{
+    padding: 4px 4px 4px 0;
+}
+
 #apps svg {
     width: 24px;
     height: 24px;
-    fill: #5f6368;
+    fill: #444746;
 }
 
-#sign-in {
-    padding: 10px 15px;
-    background-color: #1a73e8;
+#apps > a{
+        padding: 8px;
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+    outline: none;
+    vertical-align: middle;
+    border-radius: 50%;
+    position: relative;   
+}
+
+#apps > a::after {
+    
+    content: "Google apps";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 115%;
+    width: max-content;
+    background-color: #4f5355;
     color: white;
-    margin-right: 10px;
-    margin-left: 10px;
+   
+    display: inline-block;
+    padding: 4px 8px;
     border-radius: 4px;
+    letter-spacing: .8px;
+    font-weight: 500;
+    font-size: 12px;
+    font-family:Roboto,arial,sans-serif ;
+
     line-height: 16px;
+min-height: 14px;
+    opacity: var(--pseudo-opacity, 0);
+    /* opacity: 0; */
+    z-index: 1000;
+    transition-property: opacity;
+    transition-duration: 50ms;
+    /* transition-delay: 400ms; */
+}
+
+
+#apps > a:hover {
+    cursor: pointer;
+}
+
+/* #apps > a:active{
+    background-color: #e8e9e8;
+} */
+
+/* #product-popup.visible{
+    visibility: visible;
+    height: 470px; 
+} */
+
+#sign-in {
+    padding: 10px 12px;
+    margin: 12px 16px 12px 10px;
+    background-color: #0b57d0;
+    color: white;
+    min-width: 85px;
+    min-height: 40px;
+    text-align: center;
+    border-radius: 100px;
+    line-height: 18px;
     font-size: 14px;
 }
 
@@ -48,49 +149,222 @@ header a:hover {
                 0 1px 2px 0 rgba(60,64,67,.3);    
 }
 
-#apps {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    position: relative;
-}
+ /* ------------------- header - google product popup ------------------------------- */
 
-#apps::after {
-    content: "Google Apps";
+ #product-popup{
+    overflow: hidden;
     position: absolute;
-    top: 115%;
-    width: max-content;
-    background-color: rgba(60,64,67,.90);
-    color: white;
-    display: inline-block;
-    padding: 5px;
-    border-radius: 4px;
-    font-weight: 500;
-    letter-spacing: .8px;
-    line-height: 16px;
-    opacity: 0;
+    top: 0px;
+    right: 0px;
+    width: 370px;
+    /* 0 */
+    height: 470px; 
+    margin-top: 49px;
+    margin-right: 4px;
+    max-height: calc(-59px + 100dvh);
+    /* visible */
+    visibility: hidden;
     transition-property: opacity;
-    transition-duration: 50ms;
-    transition-delay: 400ms;
+    transition-delay: 55ms;
+    transition-duration: 0.3s;
+    
+    z-index: 1000;
+ }
+
+ #outer-wrapper{
+    height: 100%;
+    padding: 3px 10px 14px;
+    text-size-adjust: 100%;
+    margin: 0;
+overflow: hidden;
+ }
+
+ #inner-wrapper{
+    background-color: #e9eef6;
+    border-radius: 28px;
+    border: none;
+    box-shadow: 0 4px 8px 3px rgba(0,0,0,.15),0 1px 3px rgba(0,0,0,.3);
+    margin: 3px auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 8px;
+    position: relative;
+    width: 344px;
+    height: 100%;
 }
 
-#apps:hover::after{
-    opacity: 1;
+#inner-wrapper::-webkit-scrollbar{
+    width: 8px;
 }
+
+#inner-wrapper::-webkit-scrollbar-thumb{
+    background-clip: padding-box;
+    background-color: rgba(31,31,31,.16);
+    border-radius: 8px;
+    border: 1px solid transparent;
+    box-shadow: none;
+    height: 185;
+    max-height: 33%;
+}
+
+#inner-wrapper::-webkit-scrollbar-track{
+    background: transparent;
+    border: none;
+    margin-bottom: 34px;
+    margin-top: 34px;
+}
+
+#inner-wrapper::-webkit-scrollbar-track, 
+#inner-wrapper::-webkit-scrollbar-track:hover{
+    background: none;
+    border: none;
+}
+
+#inner-most-wrapper2{
+    width: 100%;
+}
+
+.half{
+    background-color: #f8fafd;
+    color: #444746;
+    padding: 24px 20px;
+    width: 328px;
+    box-sizing: border-box;
+}
+
+#first-half{
+    border-radius: 24px 24px 4px 4px;
+    margin-bottom: 4px;
+}
+
+#second-half{
+    border-radius: 4px 4px 24px 24px;
+    margin-bottom: 10px;
+}
+
+#first-half > ul{
+    padding-top: 0;
+}
+
+#second-half > ul{
+    padding-bottom: 10px;
+}
+
+.half > ul{
+    box-sizing: content-box;
+    padding: 0;
+    margin: 0;
+    list-style-type: disc;
+    display: flex;
+    gap: 0;
+    flex-wrap: wrap;
+}
+
+.half > ul > li{
+    box-sizing: content-box;
+    display: inline-block;
+    height: 84px;
+    list-style-type: none;
+    padding: 6px;
+    margin: 0;
+    position: relative;
+    vertical-align: top;
+    width: 84px;
+    transition-duration: 0.2s;
+    transition-property: transform;
+    transition-timing-function: cubic-bezier(.333,0,0,1);
+}
+
+.half > ul > li > a{
+    border-radius: 16px;
+    outline: none;
+    margin: 0;
+    position: absolute;
+    text-align: center;
+    text-decoration: none;
+    width: 84px;
+    height: 84px;
+}
+
+.half > ul > li > a:hover{
+    background-color: #e9eef6;
+    cursor: pointer;
+    height: fit-content; /* Resize the link container to wrap the text */
+}
+
+.half > ul > li > a:hover > span {
+    white-space: normal; /* Allow text to wrap */
+}
+    
+
+.half > ul > li > a > div{
+    height: 57px;
+    margin-top: 5px;
+}
+.half > ul > li > a > div > span{
+    background-image: url('https://ssl.gstatic.com/gb/images/sprites/p_2x_065643996766.png');
+    background-size: 53px 2721px;
+    display: inline-block;
+    height: 53px;
+    vertical-align: top;
+    width: 53px;
+}
+
+.half > ul > li > a > span{
+    color: rgb(32,33,36);
+    display: inline-block;
+    font-family: "Google Sans",Roboto,Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    letter-spacing: .09px;
+    line-height: 18px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 76px;
+}
+
+
+#inner-most-wrapper3{
+    text-align: center;
+}
+
+#inner-most-wrapper3 > a{
+    border-radius: 100px;
+    border: 1px solid #747775;
+    background: none;
+    box-sizing: border-box;
+    color:#0b57d0;
+    display: inline-block;
+    font-family: "Google Sans", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    min-height: 40px;
+    outline: none;
+    padding: 10px 24px;
+    text-align: center;
+    text-decoration: none;
+    white-space: normal;
+    line-height: 18px;
+    position: relative;
+    margin: 16px 0 20px 0;
+    max-width: 265px;
+    width: auto;
+}
+
+#inner-most-wrapper3 > a:hover{
+    cursor: pointer;
+    background-color: #f8fbff;
+    border-color: #cce0fc;
+}
+
+
+/*  ---------- main --------------- */
 
 main {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding-top: 10px;
-}
-
-#apps:hover {
-    cursor: pointer;
-    background-color: rgba(60,64,67,.08);
 }
 
 #form-wrapper {
@@ -395,9 +669,24 @@ main > div:last-child a:hover{
 /* ------------------ convertion of languages -------------------*/
 
 #lang-container > a:link {
-    color: #383ec3; /* Color for unvisited links */
+    color: #2962ff; /* Color for unvisited links */
 }
 
 #lang-container > a:visited {
-    color: #383ec3; /* Same color for visited links */
+    color: #2962ff; /* Same color for visited links */
 }
+
+
+
+/* Dark Theme */
+
+body.dark-theme {
+    background-color: #121212;
+    color: white;
+  }
+  
+  input.dark-theme {
+    background-color: #222;
+    color: white;
+    border: 1px solid #444;
+  }
