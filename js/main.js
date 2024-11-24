@@ -4,6 +4,9 @@ let isPopup = false;
 const settingDiv = document.getElementById('setting');
 const popup = document.getElementById('setting-popup');
 
+const appsLink = document.querySelector("#apps > a");
+const productPopup = document.getElementById("product-popup");
+
 
 // Restore popup state only when navigating back
 window.addEventListener('load', () => {
@@ -12,6 +15,12 @@ window.addEventListener('load', () => {
     if (popupState === 'true' && navigationTriggered === 'true') {
         showPopup();
         sessionStorage.setItem('navigatedMenuItem', 'false'); // Reset navigation trigger
+    }
+
+
+    if(sessionStorage.getItem('navigatedGoogleProduct') === 'true'){
+        appsLink.style.backgroundColor = "#dedede";
+        appsLink.style.setProperty("--pseudo-opacity", 1);
     }
 });
 
@@ -77,18 +86,14 @@ productIcon.addEventListener('mouseenter', (event) => {
 });
 
 // open and close the product popup
-const appsLink = document.querySelector("#apps > a");
-const productPopup = document.getElementById("product-popup");
 
 function showProductPopup() {
-    console.log("show");
     productPopup.style.visibility = "visible";
     productPopup.style.opacity = "1";
-    appsLink.style.backgroundColor = "#e8e9e8";
+    appsLink.style.backgroundColor = "#dedede";
 }
 
 function hideProductPopup() {
-    console.log("hide");
     productPopup.style.visibility = "hidden";
     productPopup.style.opacity = "0";
     appsLink.style.backgroundColor = "transparent";
@@ -134,7 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let isHoverOnTooltip = rect.left < mouseX && mouseX < rect.right && mouseY < rect.bottom + tooltipHeight && mouseY > rect.bottom;
 
         if (!isHoverOnTooltip) {
-            appsLink.style.backgroundColor = isVisiblePopup ? "#e8e9e8" : "transparent";
+            appsLink.style.backgroundColor = isVisiblePopup ? "#dedede" : "transparent";
             appsLink.style.setProperty("--pseudo-opacity", 0); // Hide tooltip
             appsLink.style.setProperty("--pseudo-pointer-events", "none"); // Disable interactivity
             isVisibleTooltip = false;
@@ -151,19 +156,46 @@ document.addEventListener("DOMContentLoaded", () => {
 
         appsLink.style.setProperty("--pseudo-opacity", 0); // Hide pseudo-element
 
-        isVisiblePopup ? hideProductPopup() : showProductPopup(); // Toggle popup visibility
+        // Toggle popup visibility
+        if (isVisiblePopup) {
+            hideProductPopup();
+            sessionStorage.setItem('isProductPopup', 'false'); // Save product popup state before navigation
+        } else {
+            showProductPopup();
+            sessionStorage.setItem('isProductPopup', 'true'); 
+        }
+        
+        // isVisiblePopup ? hideProductPopup() : showProductPopup(); // Toggle popup visibility
 
         isVisiblePopup = !isVisiblePopup; // Toggle visibility state
     });
 
     // Handle clicks outside the popup or the apps link
     document.addEventListener("click", (event) => {
-        if (isVisiblePopup && !appsLink.contains(event.target) && !productPopup.contains(event.target)) {
-            hideProductPopup();
+        if (!appsLink.contains(event.target) && !productPopup.contains(event.target)) {
+            if(isVisiblePopup){
+                hideProductPopup();
             isVisiblePopup = false; // Set visibility to false when clicking outside
+            }
+            
+            if(sessionStorage.getItem('navigatedGoogleProduct') === 'true'){
+            appsLink.style.backgroundColor = "transparent";
+        appsLink.style.setProperty("--pseudo-opacity", 0);
+        sessionStorage.setItem("navigatedGoogleProduct", false);
+            }
         }
     });
+
+    
 });
+
+// check that click on google product 
+document.querySelectorAll('.half > ul > li > a, #inner-most-wrapper3 > a').forEach(product => {
+    product.addEventListener('click', () => {
+        sessionStorage.setItem("navigatedGoogleProduct", "true"); // Mark navigation triggered
+    });
+});
+
 
 
 
