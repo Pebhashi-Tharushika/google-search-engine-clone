@@ -81,9 +81,9 @@ header #nav > div:nth-child(2){
     height: 40px;
     display: inline-block;
     outline: none;
-    vertical-align: middle;
+    vertical-align:middle;
     border-radius: 50%;
-    position: relative;   
+    position: relative;  
 }
 
 #apps > a::after {
@@ -98,36 +98,23 @@ header #nav > div:nth-child(2){
     color: white;
    
     display: inline-block;
-    padding: 4px 8px;
+    padding: var(--pseudo-tb-padding, 4px) var(--pseudo-lr-padding, 8px);
     border-radius: 4px;
     letter-spacing: .8px;
     font-weight: 500;
     font-size: 12px;
     font-family:Roboto,arial,sans-serif ;
 
-    line-height: 16px;
+    line-height: var(--pseudo-line-height,16px);
 min-height: 14px;
-    opacity: var(--pseudo-opacity, 0);
-    /* opacity: 0; */
-    z-index: 1000;
+    opacity:var(--pseudo-opacity,0);
+    z-index: 1001;
+    pointer-events: var(--pseudo-pointer-events,none);
     transition-property: opacity;
-    transition-duration: 50ms;
-    /* transition-delay: 400ms; */
+    transition-duration: 100ms;
+    transition-delay: 400ms;
 }
 
-
-#apps > a:hover {
-    cursor: pointer;
-}
-
-/* #apps > a:active{
-    background-color: #e8e9e8;
-} */
-
-/* #product-popup.visible{
-    visibility: visible;
-    height: 470px; 
-} */
 
 #sign-in {
     padding: 10px 12px;
