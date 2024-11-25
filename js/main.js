@@ -1,4 +1,3 @@
-/* ----------------------- setting popup ------------------------- */
 let isPopup = false;
 
 const settingDiv = document.getElementById('setting');
@@ -7,6 +6,10 @@ const popup = document.getElementById('setting-popup');
 const appsLink = document.querySelector("#apps > a");
 const productPopup = document.getElementById("product-popup");
 
+const loader = document.getElementById("inner-most-wrapper1");
+sessionStorage.setItem("isLoaderDisplayed", 'false');
+
+/* ----------------------- setting popup ------------------------- */
 
 // Restore popup state only when navigating back
 window.addEventListener('load', () => {
@@ -164,10 +167,19 @@ document.addEventListener("DOMContentLoaded", () => {
             showProductPopup();
             sessionStorage.setItem('isProductPopup', 'true'); 
         }
-        
-        // isVisiblePopup ? hideProductPopup() : showProductPopup(); // Toggle popup visibility
 
         isVisiblePopup = !isVisiblePopup; // Toggle visibility state
+
+        let isLoaderDisplayed = sessionStorage.getItem("isLoaderDisplayed");
+
+        if(isLoaderDisplayed === 'false' && isVisiblePopup){
+            console.log('awa');
+            loader.style.display = "block";
+            setTimeout(() => {
+                loader.style.display = "none";
+            }, 1150); //loading delay
+            sessionStorage.setItem("isLoaderDisplayed", "true");
+        };
     });
 
     // Handle clicks outside the popup or the apps link
