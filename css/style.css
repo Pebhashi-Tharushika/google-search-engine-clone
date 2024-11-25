@@ -669,9 +669,15 @@ main > div:last-child a:hover{
     width: 100%;
     height: 100%;
 }
+
 .menu-item:hover{
     background-color: rgba(0, 0, 0, .1);
 }
+
+#setting-menu > li:last-child:hover #theme-wrapper > #theme-image {
+    opacity: 1;
+}
+
 
 .menu-separator {
     border-top: 1px solid #dadce0; 
