@@ -703,8 +703,23 @@ main > div:last-child a:hover{
 /* Dark Theme */
 
 body.dark-theme {
-    background-color: #121212;
+    background-color: #202124;
     color: white;
+  }
+
+  body.dark-theme header a{
+    color: white;
+  }
+
+  body.dark-theme #apps svg{
+    fill: white;
+  }
+
+  /* body.dark-theme #apps > a:hover{
+    background-color: #343538;
+  } */
+  body.dark-theme #apps > a::after{
+    background-color: #393d40;
   }
   
   input.dark-theme {
