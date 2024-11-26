@@ -598,13 +598,11 @@ main>div:last-child a:hover {
 }
 
 #lang-container>a:link {
-    color: #2962ff;
-    /* Color for unvisited links */
+    color: #2962ff;     /* Color for unvisited links */
 }
 
 #lang-container>a:visited {
-    color: #2962ff;
-    /* Same color for visited links */
+    color: #2962ff; /* Same color for visited links */
 }
 /* @media all and (max-width: 768px) {
     main > div:first-child > img {
@@ -751,6 +749,7 @@ main>div:last-child a:hover {
 
 /* Dark Theme */
 
+/* ---------------- header ---------------- */
 body.dark-theme {
     background-color: #202124;
     color: white;
@@ -815,6 +814,8 @@ body.dark-theme #inner-most-wrapper3>a:hover {
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .3), 0 1px 3px 1px rgba(0, 0, 0, .15);
 }
 
+/* ---------- main --------------- */
+
 body.dark-theme #input-wrapper {
     background-color: #4d5156;
     border-color: transparent;
@@ -844,7 +845,6 @@ body.dark-theme #mic-icon:hover::before,
     border-color: transparent transparent rgb(90 90 90 / 60%) transparent; 
 }
 
-/* Inner triangle */
 body.dark-theme #mic-icon:hover::after,
 #camera-icon:hover::after{
     border-color: transparent transparent #202124 transparent; 
@@ -856,9 +856,6 @@ body.dark-theme #mic-icon:hover .tooltip,
     color: rgb(232, 232, 232);
     border-color:  rgb(90 90 90 / 60%);
 }
-
-
-
 
 body.dark-theme #button-wrapper .btn{
     background-color: #303134;
@@ -883,4 +880,19 @@ body.dark-theme #lang-container>a:visited{
 
 body.dark-theme main > div:last-child{
     color: #bfbfbf;
+}
+
+/* ---------- footer ------------- */
+
+body.dark-theme #footer-wrapper {
+    background-color: #171717;
+}
+
+body.dark-theme #footer-wrapper>div:first-child{
+    border-bottom-color: #313335;
+    color: #e8e8e8;
+}
+
+body.dark-theme #footer-wrapper a{
+    color: #e8e8e8;
 }
