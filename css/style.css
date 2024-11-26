@@ -896,3 +896,25 @@ body.dark-theme #footer-wrapper>div:first-child{
 body.dark-theme #footer-wrapper a{
     color: #e8e8e8;
 }
+
+body.dark-theme #setting-menu {
+    background-color: #1f1f1f;
+}
+
+body.dark-theme .menu-item, 
+                .menu-item > div, 
+                .menu-item a {
+    color: #e8e8e8;
+}
+
+body.dark-theme .menu-separator {
+    border-top-color: #313335;
+}
+
+body.dark-theme .menu-item:hover {
+    background-color: rgba(255,255,255,.1);
+}
+
+body.dark-theme #theme-image>span {
+    fill: #9e9e9e;
+}
