@@ -268,6 +268,6 @@ themeSetting.addEventListener('click', () => {
 
 // show tooltip for close button
 const btnClose = document.querySelector('#feedback-form-close button');
-const closeTooltip = document.querySelector('#feedback-form-close #tooltip-wrapper');
+const closeTooltip = document.querySelector('#feedback-form-close #close-tooltip');
 btnClose.addEventListener('mouseover', () => closeTooltip.style.display = 'block');
 btnClose.addEventListener('mouseout', () => closeTooltip.style.display = 'none');

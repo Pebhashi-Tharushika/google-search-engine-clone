@@ -786,6 +786,9 @@ main>div:last-child a:hover {
     flex-direction: column;
 }
 
+
+/* feedback form - header */
+
 #feedback-form-header {
     display: flex;
     flex-direction: row;
@@ -808,7 +811,7 @@ main>div:last-child a:hover {
     height: 48px;
 }
 
-#feedback-form .btn-wrapper {
+#feedback-form #btn-wrapper {
     display: inline-block;
     position: relative;
     height: 100%;
@@ -860,7 +863,7 @@ main>div:last-child a:hover {
     fill: #474747;
 }
 
-#tooltip-wrapper{
+#close-tooltip{
     position: fixed;
     display: none;
     max-height: 7rem;
@@ -873,19 +876,72 @@ main>div:last-child a:hover {
     width: max-content;
 }
 
-#tooltip-wrapper > div{
+#close-tooltip > div, #send-tooltip > div{
     letter-spacing: .025em;
     font-size: calc(16px*.75);
     font-weight: 400;
-    line-height: calc(16px*1);
+    line-height: 16px;
     margin: 4px 8px;
     max-width: 10rem;
     overflow: hidden;
 }
 
+/* feedback form - body */
+
+#feedback-form-body{
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 16px;
+}
 
 
+/* feedback form - footer */
 
+#feedback-form-footer{
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 -1px 4px rgba(48,48,48,.3);
+    padding: 20px 20px 16px 20px;
+    letter-spacing: .00625em;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+#feedback-form-footer #footer-btn-wrapper{
+    display: flex;
+    justify-content: flex-end;   
+}
+
+#feedback-form-footer #footer-btn-wrapper button{
+color: rgba(31,31,31,.72);
+background-color: rgba(31,31,31,.12);
+padding: 0 24px;
+border-radius: 4px;
+height: 36px;
+min-width: 64px;
+border: 1px solid transparent;
+}
+
+#send-tooltip{
+    display: block;
+    max-height: 7rem;
+    top: 533px;
+    right: 0;
+    background-color: #1f1f1f;
+    color: #fff;
+    opacity: .8;
+    border-radius: 6px;
+    position: fixed;
+    width: max-content;
+}
+
+#send-tooltip > div{
+    white-space: normal;
+    max-width: calc(16px*8);
+}
 
 
 /* Dark Theme */
