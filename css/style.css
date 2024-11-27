@@ -494,37 +494,37 @@ main>div:first-child>img {
 
 /* Outer triangle (white border for outline) */
 #mic-icon:hover::before,
-#camera-icon:hover::before  {
+#camera-icon:hover::before {
     content: "";
     position: absolute;
     top: calc(100% - 5px);
     left: 50%;
     transform: translateX(-50%) translateY(-10px);
-    border-width: 10px; 
+    border-width: 10px;
     border-style: solid;
-    border-color: transparent transparent #fff transparent; 
-    z-index: 10000; 
+    border-color: transparent transparent #fff transparent;
+    z-index: 10000;
 }
 
 /* Inner triangle */
 #mic-icon:hover::after,
-#camera-icon:hover::after{
+#camera-icon:hover::after {
     content: "";
     position: absolute;
     top: calc(100% - 0.5px);
     left: 50%;
-    transform: translateX(-50%) translateY(-11px); 
+    transform: translateX(-50%) translateY(-11px);
     border-width: 8px;
     border-style: solid;
-    border-color: transparent transparent rgba(48, 49, 48, 0.95) transparent; 
-    z-index: 10001; 
+    border-color: transparent transparent rgba(48, 49, 48, 0.95) transparent;
+    z-index: 10001;
 }
 
 /* Tooltip box */
 #mic-icon:hover .tooltip,
 #camera-icon:hover .tooltip {
     position: absolute;
-    top: calc(100% + 3px); 
+    top: calc(100% + 3px);
     left: 50%;
     transform: translateX(-50%);
     background-color: rgba(48, 49, 48, 0.95);
@@ -532,16 +532,16 @@ main>div:first-child>img {
     padding: 8px 11px;
     font-size: 11px;
     font-weight: bold;
-    border: 1px solid #fff; 
+    border: 1px solid #fff;
     box-shadow: 1px 1px 5px rgba(32, 33, 36, .28);
     white-space: nowrap;
     z-index: 10001;
     pointer-events: none;
     opacity: 1;
-    display: block; 
+    display: block;
 }
 
-.tooltip{
+.tooltip {
     display: none;
 }
 
@@ -555,7 +555,7 @@ main>div:first-child>img {
 }
 
 #button-wrapper .btn {
-    font-family: Arial,sans-serif;
+    font-family: Arial, sans-serif;
     text-decoration: none;
     font-size: 14px;
     line-height: 36px;
@@ -598,12 +598,15 @@ main>div:last-child a:hover {
 }
 
 #lang-container>a:link {
-    color: #2962ff;     /* Color for unvisited links */
+    color: #2962ff;
+    /* Color for unvisited links */
 }
 
 #lang-container>a:visited {
-    color: #2962ff; /* Same color for visited links */
+    color: #2962ff;
+    /* Same color for visited links */
 }
+
 /* @media all and (max-width: 768px) {
     main > div:first-child > img {
         height: 56px;
@@ -744,6 +747,144 @@ main>div:last-child a:hover {
     list-style: none;
 }
 
+/* -------------- footer - feedback form ------------- */
+#feedback-wrapper {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 10000000;
+    pointer-events: auto;
+    opacity: 1;
+    background-color: rgba(128, 134, 139, 0.5);
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+#feedback-form-container {
+    opacity: 1;
+    visibility: visible;
+    position: absolute;
+    top: 0;
+    height: 100vh;
+    width: 412px;
+}
+
+#feedback-form {
+    border-radius: 8px 0 0 8px;
+    box-shadow: 0 1px 3px 0 rgba(48, 48, 48, 0.302), 0 4px 8px 3px rgba(48, 48, 48, 0.149);
+    background: #fff;
+    letter-spacing: .00625em;
+    font-size: calc(16px*1);
+    font-weight: 400;
+    line-height: calc(16px*1.5);
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+#feedback-form-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: calc(16px*.5) calc(16px*1.25) calc(16px*.25) calc(16px*1);
+    box-shadow: 0 1px 4px rgba(48, 48, 48, .3);
+}
+
+#feedback-form-title>h1 {
+    font-size: calc(16px*1.125);
+    line-height: calc(16px*1.5);
+    color: #1f1f1f;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+}
+
+#feedback-form-close {
+    width: 24px;
+    height: 48px;
+}
+
+#feedback-form .btn-wrapper {
+    display: inline-block;
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+#feedback-form .btn {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    min-height: 3rem;
+    min-width: 3rem;
+    margin: 0;
+}
+
+
+#feedback-form-close button {
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+#feedback-form-close button:hover {
+    cursor: pointer;
+    background-color: rgba(128, 134, 139, 0.08);
+}
+
+#feedback-form button {
+    letter-spacing: .0107142857em;
+    font-size: calc(16px*.875);
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+}
+
+#feedback-form-close button div {
+    width: 24px;
+    height: 24px;
+    vertical-align: bottom;
+    display: inline-block;
+}
+
+#feedback-form-close button div>svg {
+    fill: #474747;
+}
+
+#tooltip-wrapper{
+    position: fixed;
+    display: none;
+    max-height: 7rem;
+    top: 60px;
+    background-color: #1f1f1f;
+    color: #fff;
+    opacity: 0.8;
+    border-radius: 6px;
+    transform: translateX(-25%);
+    width: max-content;
+}
+
+#tooltip-wrapper > div{
+    letter-spacing: .025em;
+    font-size: calc(16px*.75);
+    font-weight: 400;
+    line-height: calc(16px*1);
+    margin: 4px 8px;
+    max-width: 10rem;
+    overflow: hidden;
+}
+
+
+
 
 
 
@@ -841,30 +982,30 @@ body.dark-theme #input-wrapper:hover #middle-div textarea {
 }
 
 body.dark-theme #mic-icon:hover::before,
-#camera-icon:hover::before  {
-    border-color: transparent transparent rgb(90 90 90 / 60%) transparent; 
+#camera-icon:hover::before {
+    border-color: transparent transparent rgb(90 90 90 / 60%) transparent;
 }
 
 body.dark-theme #mic-icon:hover::after,
-#camera-icon:hover::after{
-    border-color: transparent transparent #202124 transparent; 
+#camera-icon:hover::after {
+    border-color: transparent transparent #202124 transparent;
 }
 
 body.dark-theme #mic-icon:hover .tooltip,
 #camera-icon:hover .tooltip {
     background-color: #202124;
     color: rgb(232, 232, 232);
-    border-color:  rgb(90 90 90 / 60%);
+    border-color: rgb(90 90 90 / 60%);
 }
 
-body.dark-theme #button-wrapper .btn{
+body.dark-theme #button-wrapper .btn {
     background-color: #303134;
     border: 1px solid #303134;
     color: #e8eaed;
 }
 
-body.dark-theme #button-wrapper .btn:hover{
-    box-shadow: 0 1px 3px rgba(23,23,23,0.24);
+body.dark-theme #button-wrapper .btn:hover {
+    box-shadow: 0 1px 3px rgba(23, 23, 23, 0.24);
     background-color: #303134;
     border: 1px solid #5f6368;
     color: #e8eaed;
@@ -874,11 +1015,11 @@ body.dark-theme #lang-container>a:link {
     color: #99c3ff;
 }
 
-body.dark-theme #lang-container>a:visited{
+body.dark-theme #lang-container>a:visited {
     color: #c58af9;
 }
 
-body.dark-theme main > div:last-child{
+body.dark-theme main>div:last-child {
     color: #bfbfbf;
 }
 
@@ -888,12 +1029,12 @@ body.dark-theme #footer-wrapper {
     background-color: #171717;
 }
 
-body.dark-theme #footer-wrapper>div:first-child{
+body.dark-theme #footer-wrapper>div:first-child {
     border-bottom-color: #313335;
     color: #e8e8e8;
 }
 
-body.dark-theme #footer-wrapper a{
+body.dark-theme #footer-wrapper a {
     color: #e8e8e8;
 }
 
@@ -901,9 +1042,9 @@ body.dark-theme #setting-menu {
     background-color: #1f1f1f;
 }
 
-body.dark-theme .menu-item, 
-                .menu-item > div, 
-                .menu-item a {
+body.dark-theme .menu-item,
+body.dark-theme .menu-item>div,
+body.dark-theme .menu-item a {
     color: #e8e8e8;
 }
 
@@ -912,7 +1053,7 @@ body.dark-theme .menu-separator {
 }
 
 body.dark-theme .menu-item:hover {
-    background-color: rgba(255,255,255,.1);
+    background-color: rgba(255, 255, 255, .1);
 }
 
 body.dark-theme #theme-image>span {
