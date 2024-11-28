@@ -266,6 +266,8 @@ themeSetting.addEventListener('click', () => {
 
 /* ----------------------- feedback form ------------------*/
 
+let isVisibleFeedbackForm = false;
+
 // show tooltip for close button
 const btnClose = document.querySelector('#feedback-form-close button');
 const closeTooltip = document.querySelector('#feedback-form-close #close-tooltip');
@@ -283,3 +285,24 @@ const infoElm = document.getElementById('info');
 const infoTooltip = document.getElementById('info-tooltip');
 infoElm.addEventListener('mouseover', () => infoTooltip.style.display = 'block');
 infoElm.addEventListener('mouseout', () => infoTooltip.style.display = 'none');
+
+//open feedback form
+const menuItemFeedback = document.getElementById("send-feedback");
+const frmFeedback = document.getElementById('feedback-wrapper');
+menuItemFeedback.addEventListener('click', () => {
+    btnClose.classList.remove('active');
+    frmFeedback.style.visibility = 'visible';
+    isVisibleFeedbackForm = true;
+});
+
+//close feedback form
+btnClose.addEventListener('click', () => {
+    btnClose.classList.add('active');
+    setTimeout(() => {
+        frmFeedback.style.visibility = 'hidden';
+        isVisibleFeedbackForm = false;
+        btnClose.classList.remove('active');
+    }, 500);
+
+});
+

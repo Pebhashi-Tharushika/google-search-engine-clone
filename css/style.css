@@ -749,6 +749,7 @@ main>div:last-child a:hover {
 
 /* -------------- footer - feedback form ------------- */
 #feedback-wrapper {
+    visibility: hidden;
     height: 100%;
     width: 100%;
     position: fixed;
@@ -763,8 +764,8 @@ main>div:last-child a:hover {
 }
 
 #feedback-form-container {
-    opacity: 1;
-    visibility: visible;
+    /* opacity: 1; */
+    /* visibility: hidden; */
     position: absolute;
     top: 0;
     height: 100vh;
@@ -842,6 +843,11 @@ main>div:last-child a:hover {
 #feedback-form-close button:hover {
     cursor: pointer;
     background-color: rgba(128, 134, 139, 0.08);
+}
+
+#feedback-form-close button.active {
+    background-color: rgba(128, 134, 139, 0.4); /* Background when form is active */
+    border: 2px solid #0b57d0;
 }
 
 #feedback-form button {
