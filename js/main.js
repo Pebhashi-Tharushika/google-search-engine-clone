@@ -267,6 +267,10 @@ themeSetting.addEventListener('click', () => {
 /* ----------------------- feedback form ------------------*/
 
 let isVisibleFeedbackForm = false;
+let isCloseButtonClicked = false;
+
+const menuItemFeedback = document.getElementById("send-feedback");
+const frmFeedback = document.getElementById('feedback-wrapper');
 
 // show tooltip for close button
 const btnClose = document.querySelector('#feedback-form-close button');
@@ -286,23 +290,61 @@ const infoTooltip = document.getElementById('info-tooltip');
 infoElm.addEventListener('mouseover', () => infoTooltip.style.display = 'block');
 infoElm.addEventListener('mouseout', () => infoTooltip.style.display = 'none');
 
+
+// toggle appearance based on focus of feedback description container
+const frmTextarea = document.getElementById('fb-description');
+const borderElms = document.querySelectorAll('#desc-border-container > div');
+const lblPlaceholder = document.querySelector('#desc-border-container>div:nth-child(2)>label');
+
+// Focus event
+frmTextarea.addEventListener('focus', () => {
+    if (!isCloseButtonClicked) {
+        lblPlaceholder.style.transform = 'scale(0)'; // Shrink out
+        lblPlaceholder.style.visibility = 'hidden'; 
+        borderElms.forEach(elm => elm.classList.add('desc-border-container-focused'));
+    }
+});
+
+// Blur event
+frmTextarea.addEventListener('blur', () => {
+    if (!isCloseButtonClicked && frmTextarea.value === '') {
+        lblPlaceholder.style.visibility = 'visible'; 
+        lblPlaceholder.style.transform = 'scale(1)';
+        borderElms.forEach(elm => elm.classList.remove('desc-border-container-focused'));
+    }
+});
+
 //open feedback form
-const menuItemFeedback = document.getElementById("send-feedback");
-const frmFeedback = document.getElementById('feedback-wrapper');
 menuItemFeedback.addEventListener('click', () => {
     btnClose.classList.remove('active');
+    lblPlaceholder.style.visibility = 'visible';
+    lblPlaceholder.style.transform = 'scale(1)';
     frmFeedback.style.visibility = 'visible';
     isVisibleFeedbackForm = true;
 });
 
-//close feedback form
+// Close feedback form
 btnClose.addEventListener('click', () => {
+    // Set the flag to true to prevent blur behavior when the close button is clicked
+    isCloseButtonClicked = true;
+    
+    // Hide the label and textarea
+    lblPlaceholder.style.visibility = 'hidden';
+    lblPlaceholder.style.transform = 'scale(0)';
+    
     btnClose.classList.add('active');
+    
+    // After hiding the feedback form, reset the flag and clear the textarea
     setTimeout(() => {
+        frmTextarea.value = '';
         frmFeedback.style.visibility = 'hidden';
         isVisibleFeedbackForm = false;
         btnClose.classList.remove('active');
-    }, 500);
-
+        borderElms.forEach(elm => elm.classList.remove('desc-border-container-focused'));
+        
+        // Reset the flag after the feedback form is closed to allow normal behavior
+        setTimeout(() => {
+            isCloseButtonClicked = false;   
+        }, 250);
+    }, 250);
 });
-

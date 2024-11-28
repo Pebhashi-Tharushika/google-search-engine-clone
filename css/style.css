@@ -943,6 +943,7 @@ main>div:last-child a:hover {
     letter-spacing: .00625em;
     font-family: Google Sans Text, Roboto, Arial, sans-serif;
     font-weight: 400;
+    font-size: 16px;
     box-sizing: content-box;
     line-height: normal;
     resize: none;
@@ -950,6 +951,15 @@ main>div:last-child a:hover {
     border: none;
     background: transparent;
     caret-color: #0b57d0;
+}
+#fb-description:focus{
+    outline: none;
+}
+
+.desc-border-container-focused{
+
+    border-color: #0b57d0 !important;
+    border-width: 2px !important;
 }
 
 /* #feedback-description > div > div > div:nth-child(2){
@@ -1024,11 +1034,10 @@ main>div:last-child a:hover {
     text-overflow: ellipsis;
     top: 1.0625rem;
     transform-origin: 0 0;
-    transition-delay: 0s, 0s;
-    transition-duration: .15s, .15s;
-    transition-property: transform, color, -webkit-transform;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.4, 0, 0.2, 1);
-}
+    transform: scale(1); 
+    transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), 
+                color 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
 #desc-border-container>div:last-child {
     border-bottom: 1px solid #444746;
