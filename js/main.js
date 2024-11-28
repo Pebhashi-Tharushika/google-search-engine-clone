@@ -271,3 +271,15 @@ const btnClose = document.querySelector('#feedback-form-close button');
 const closeTooltip = document.querySelector('#feedback-form-close #close-tooltip');
 btnClose.addEventListener('mouseover', () => closeTooltip.style.display = 'block');
 btnClose.addEventListener('mouseout', () => closeTooltip.style.display = 'none');
+
+//show tooltip for send button
+const btnSend = document.querySelector('#footer-btn-wrapper > button');
+const sendTooltip = document.getElementById('send-tooltip');
+btnSend.addEventListener('mouseover', () => sendTooltip.style.display = 'block');
+btnSend.addEventListener('mouseout', () => sendTooltip.style.display = 'none');
+
+//show tooltip for info
+const infoElm = document.getElementById('info');
+const infoTooltip = document.getElementById('info-tooltip');
+infoElm.addEventListener('mouseover', () => infoTooltip.style.display = 'block');
+infoElm.addEventListener('mouseout', () => infoTooltip.style.display = 'none');
