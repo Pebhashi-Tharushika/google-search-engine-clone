@@ -859,11 +859,11 @@ main>div:last-child a:hover {
     display: inline-block;
 }
 
-#feedback-form  svg {
+#feedback-form svg {
     fill: #444746;
 }
 
-#close-tooltip{
+#close-tooltip {
     position: fixed;
     display: none;
     max-height: 7rem;
@@ -876,7 +876,9 @@ main>div:last-child a:hover {
     width: max-content;
 }
 
-#close-tooltip > div, #send-tooltip > div, #info-tooltip > div{
+#close-tooltip>div,
+#send-tooltip>div,
+#info-tooltip>div {
     letter-spacing: .025em;
     font-size: calc(16px*.75);
     font-weight: 400;
@@ -888,7 +890,7 @@ main>div:last-child a:hover {
 
 /* feedback form - body */
 
-#feedback-form-body{
+#feedback-form-body {
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
@@ -897,29 +899,30 @@ main>div:last-child a:hover {
     flex-grow: 1;
 }
 
-#part1{
+#part1,
+#part2 {
     color: #1f1f1f;
     padding: calc(16px*.65) 0;
 }
 
-.fb-label{
+.fb-label {
     letter-spacing: .0142857143em;
-    font-family: Google Sans Text,Roboto,Arial,sans-serif;
+    font-family: Google Sans Text, Roboto, Arial, sans-serif;
     font-size: calc(16px*.875);
     font-weight: 400;
     line-height: calc(16px*1.25);
 }
 
-#feedback-description > label{
+#feedback-description>label {
     margin-bottom: calc(16px*.625);
     display: inline-block;
 }
 
-#feedback-description > div{
+#feedback-description>div {
     position: relative;
 }
 
-#feedback-description > div > div:first-child{
+#feedback-description>div>div:first-child {
     min-height: 56px;
     height: auto;
     padding-top: 15px;
@@ -928,7 +931,7 @@ main>div:last-child a:hover {
     cursor: text;
 }
 
-#fb-description{
+#fb-description {
     padding: 0px 15px 15px;
     height: 93px;
     letter-spacing: .00625em;
@@ -959,37 +962,37 @@ main>div:last-child a:hover {
     white-space: pre-wrap;
 } */
 
-#desc-border-container{
-display: flex;
-min-height: 3.5rem;
-height: 100%;
-width: 100%;
-position: absolute;
-left: 0;
-right: 0;
-top:0;
-pointer-events: none;
-box-sizing: border-box;
-letter-spacing: .00625em;
-font-family: "Google Sans Text", Roboto, Arial, sans-serif;
-font-size: 1rem;
-font-weight: 400;
-line-height: 1.5rem;
+#desc-border-container {
+    display: flex;
+    min-height: 3.5rem;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    pointer-events: none;
+    box-sizing: border-box;
+    letter-spacing: .00625em;
+    font-family: "Google Sans Text", Roboto, Arial, sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5rem;
 }
 
-#desc-border-container > div:first-child{
+#desc-border-container>div:first-child {
     box-sizing: content-box;
-    border-bottom:1px solid #444746;
-    border-left:1px solid #444746;
-    border-top:1px solid #444746;
+    border-bottom: 1px solid #444746;
+    border-left: 1px solid #444746;
+    border-top: 1px solid #444746;
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
     width: .75rem;
 }
 
-#desc-border-container > div:nth-child(2){
-    border-bottom:1px solid #444746;
-    border-top:1px solid #444746;
+#desc-border-container>div:nth-child(2) {
+    border-bottom: 1px solid #444746;
+    border-top: 1px solid #444746;
     flex-basis: auto;
     -webkit-box-flex: 0;
     flex-grow: 0;
@@ -999,12 +1002,12 @@ line-height: 1.5rem;
     width: min-content;
 }
 
-#desc-border-container > div:nth-child(2) > label{
-color: #444746; 
-height: calc(100% - 1.0625rem);
-white-space: unset;
-width: max-content;
-display: inline-block;
+#desc-border-container>div:nth-child(2)>label {
+    color: #444746;
+    height: calc(100% - 1.0625rem);
+    white-space: unset;
+    width: max-content;
+    display: inline-block;
     left: 4px;
     max-width: 100%;
     min-height: 3.5rem;
@@ -1018,13 +1021,13 @@ display: inline-block;
     transition-delay: 0s, 0s;
     transition-duration: .15s, .15s;
     transition-property: transform, color, -webkit-transform;
-    transition-timing-function: cubic-bezier(0.4,0,0.2,1),cubic-bezier(0.4,0,0.2,1);
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-#desc-border-container > div:last-child{
-    border-bottom:1px solid #444746;
-    border-right:1px solid #444746;
-    border-top:1px solid #444746;
+#desc-border-container>div:last-child {
+    border-bottom: 1px solid #444746;
+    border-right: 1px solid #444746;
+    border-top: 1px solid #444746;
     border-bottom-right-radius: 4px;
     border-top-right-radius: 4px;
     -webkit-box-flex: 1;
@@ -1032,7 +1035,7 @@ display: inline-block;
     width: .75rem;
 }
 
-#info{
+#info {
     letter-spacing: .025em;
     font-family: "Google Sans Text", Roboto, Arial, sans-serif;
     font-size: 12px;
@@ -1045,18 +1048,18 @@ display: inline-block;
     height: 16px;
 }
 
-#info-icon{
+#info-icon {
     margin-left: 8px;
     vertical-align: middle;
 }
 
-#info-icon > div{
+#info-icon>div {
     width: 16px;
     height: 16px;
     display: inline-block;
 }
 
-#info-tooltip{
+#info-tooltip {
     display: none;
     top: 267.5px;
     background-color: #1f1f1f;
@@ -1068,42 +1071,116 @@ display: inline-block;
     box-sizing: content-box;
 }
 
-#info-tooltip > div{
-    
+#info-tooltip>div {
     margin: 8px 8px 5px 8px;
-
-        max-width: calc(16px*18);
-
-    
+    max-width: calc(16px*18);
 }
 
 
-/* feedback form - footer */
+#part2 > div {
+    letter-spacing: .0142857143em;
+    font-family: "Google Sans Text", Roboto, Arial, sans-serif;
+    font-size: calc(16px * .875);
+    font-weight: 400;
+    line-height: calc(16px * 1.25);
+}
 
-#feedback-form-footer{
+#part2 > div > div:last-child{
+    margin: calc(16px*.625) 0 0;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 -1px 4px rgba(48,48,48,.3);
+    justify-content: flex-start;
+    max-height: calc(16px*15);
+    min-height: calc(16px*2);
+    object-fit: contain;
+    width: 100%;
+}
+
+#btnCapture-wrapper{
+    position: relative;
+}
+
+#btnCapture{
+    width: 100%;
+    padding: 0 calc(16px*.9375) 0 calc(16px*.6875);
+    outline:1px solid #ababab;
+    border-radius: 4px;
+    height: calc(16px* 2.25);
+    min-width: calc(16px* 4);
+    background-color: transparent;
+    color: #0b57d0;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+#btnCapture:hover{
+    background-color: rgb(231 237 246 / 67%);
+    outline: 2px solid #0b57d0;
+}
+
+#btnCapture-icon{
+    margin-right: 8px;
+}
+
+#btnCapture-icon > div{
+    width: 18px;
+    height: 18px;
+    vertical-align: bottom;
+    display: inline-block;
+}
+
+#part3{
+    align-self: flex-end;
+   margin-top: auto;
+    width: 100%;
+}
+
+#part4{
+    letter-spacing: .025em;
+    color: #444746;
+    font-family: "Google Sans Text",Roboto,Arial,sans-serif;
+    font-size: calc(16px*.75);
+    font-weight: 400;
+    line-height: 1.2;
+    padding: calc(16px *.75) 0 calc(16px*.75) 0;
+    text-align: justify;
+}
+
+.a.info-link, .a.privacy-link, .a.tos-link, .a.legal-link {
+    color: #0b57d0;
+    cursor: pointer;
+    font-size: calc(16px* .75);
+    text-decoration: underline;
+}
+
+/* feedback form - footer */
+
+#feedback-form-footer {
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 -1px 4px rgba(48, 48, 48, .3);
     padding: 20px 20px 16px 20px;
 
 }
 
-#feedback-form-footer #footer-btn-wrapper{
+#feedback-form-footer #footer-btn-wrapper {
     display: flex;
-    justify-content: flex-end;   
+    justify-content: flex-end;
 }
 
-#feedback-form-footer #footer-btn-wrapper button{
-color: rgba(31,31,31,.72);
-background-color: rgba(31,31,31,.12);
-padding: 0 24px;
-border-radius: 4px;
-height: 36px;
-min-width: 64px;
-border: 1px solid transparent;
+#feedback-form-footer #footer-btn-wrapper button {
+    color: rgba(31, 31, 31, .72);
+    background-color: rgba(31, 31, 31, .12);
+    padding: 0 24px;
+    border-radius: 4px;
+    height: 36px;
+    min-width: 64px;
+    border: 1px solid transparent;
 }
 
-#send-tooltip{
+#send-tooltip {
     display: none;
     max-height: 7rem;
     top: 533px;
@@ -1116,7 +1193,7 @@ border: 1px solid transparent;
     width: max-content;
 }
 
-#send-tooltip > div{
+#send-tooltip>div {
     white-space: normal;
     max-width: calc(16px*8);
 }
