@@ -50,12 +50,32 @@ window.addEventListener('load', () => {
 
 });
 
+/* -------------------------- search-input -------------------------*/
+
+const inputWrapper = document.getElementById('input-wrapper');
+const searchInput = document.querySelector('#middle-div > textarea');
+const suggestions = document.getElementById('search-wrapper');
+
+document.addEventListener('click', (event) => {
+    console.log('clicked');
+    if (searchInput.contains(event.target)) {
+        inputWrapper.classList.add('input-wrapper-active');
+        suggestions.style.display = 'block';
+    }else{
+        if(inputWrapper.classList.contains('input-wrapper-active')){
+            inputWrapper.classList.remove('input-wrapper-active'); 
+            suggestions.style.display = 'none'; 
+        }
+    }
+});
+
+
+
 /* ----------------------- setting popup ------------------------- */
 
 
 // Toggle popup on settings click
 settingDiv.addEventListener('click', (event) => {
-    event.stopPropagation(); // Prevent click from propagating to document listener
     if (!isPopup) {
         showPopup();
     } else {
@@ -314,7 +334,7 @@ frmTextarea.addEventListener('blur', () => {
     }
 });
 
-//open feedback form
+//Open feedback form
 menuItemFeedback.addEventListener('click', () => {
     btnClose.classList.remove('active');
     lblPlaceholder.style.visibility = 'visible';
