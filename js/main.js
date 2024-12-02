@@ -64,6 +64,16 @@ const btnClear = document.querySelector('#btnclear-wrapper > div');
 
 const btnClearWrapper = document.getElementById('btnclear-wrapper');
 
+function changeTheme(isInside){
+    if(isInside){
+        inputWrapper.classList.add('dark-input');
+        searchInput.classList.add('dark-input');
+    }else{
+        inputWrapper.classList.remove('dark-input');
+        searchInput.classList.remove('dark-input');
+    }
+}
+
 function showSearchPopup(){
     inputWrapper.classList.add('input-wrapper-active');
         suggestions.style.display = 'block';
@@ -78,6 +88,8 @@ function hideSearchPopup(){
 //trending and recent search popup
 document.addEventListener('click', (event) => {
     if(btnClearWrapper.contains(event.target))return;
+    const currentTheme = localStorage.getItem("theme");
+
     console.log(event.target);
     if (searchInput.contains(event.target) || startDiv.contains(event.target)) {
         console.log(searchInput.contains(event.target));
@@ -86,6 +98,7 @@ document.addEventListener('click', (event) => {
         console.log('clicked');
         showSearchPopup();
         }
+        if(currentTheme === 'dark')changeTheme(true);
     }else if(!inputWrapper.contains(event.target) && !searchInput.contains(event.target) && 
                 !startDiv.contains(event.target) && inputWrapper.classList.contains('input-wrapper-active')){
         
@@ -95,7 +108,7 @@ document.addEventListener('click', (event) => {
         
             console.log('out clicked');
             hideSearchPopup();
-        
+            if(currentTheme === 'dark')changeTheme(false);
     }
 });
 
