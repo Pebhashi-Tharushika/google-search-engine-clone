@@ -855,6 +855,258 @@ main>div:first-child>img {
     color: #1a0dab; /* Same color for visited links as unvisited links */
 }
 
+/* ------ search by voice dialog ------- */
+
+dialog{
+background: transparent;
+border: none;
+}
+
+dialog > div{
+    background: #fff;
+    height: 100%;
+    left: 0;
+    opacity: 0;
+    overflow: hidden;
+    position: fixed;
+    text-align: left;
+    top: 0;
+    visibility: hidden;
+    width: 100%;
+    z-index: 10000;
+    transition: visibility 0s linear 0.218s,background-color 0.218s;
+}
+
+dialog > div > #btnClose{
+    background: none;
+    border: none;
+    color: #5e5e5e;
+    cursor: pointer;
+    font-family: Arial,sans-serif;
+    font-size: 26px;
+    right: 0;
+    line-height: 15px;
+    opacity: .6;
+    margin: -1px -1px 0 0;
+    padding: 0 0 2px 0;
+    height: 48px;
+    width: 48px;
+    position: absolute;
+    top: 0;
+    z-index: 10;
+}
+
+dialog > div > #btnClose:hover{
+    opacity: .8;
+}
+
+dialog > div > #btnClose > span{
+    height: 16px;
+    line-height: 16px;
+    width: 16px;
+    display: inline-block;
+    fill: #5e5e5e;
+    position: relative;
+}
+
+dialog > div > #btnClose > span > svg{
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+#main-container{
+    display: block;
+    height: 42px;
+    pointer-events: none;
+    margin: auto;
+    position: relative;
+    top: 0;
+    margin-top: 312px;
+    max-width: 572px;
+    min-width: 534px;
+    padding: 0 223px;
+}
+
+#inner-container{
+    height: 100%;
+    opacity: .1;
+    pointer-events: none;
+    width: 100%;
+    transition: opacity .318s ease-in;
+}
+
+#btn-container{
+    /* pointer-events: none; */
+    position: relative;
+    transition: transform 0.218s,opacity 0.218s ease-in;
+    transform: scale(.1);
+    height: 165px;
+    width: 165px;
+    right: -70px;
+    top: -70px;
+    float: right;
+}
+
+#btn-container > span:first-child{
+    background-color: #dadce0;
+    border-radius: 100%;
+    display: inline-block;
+    opacity: 1;
+    /* pointer-events: none; */
+    position: absolute;
+    transform: scale(.01);
+    transition: opacity 0.218s;
+    height: 301px;
+    left: -69px;
+    top: -69px;
+    width: 301px;
+}
+
+#btn-container > span:last-child{
+    background-color: #fff;
+    border: 1px solid #f8f9fa;
+    border-radius: 100%;
+    bottom: 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,.1);
+    cursor: pointer;
+    display: inline-block;
+    pointer-events: none;
+    right: 0;
+    transition: background-color 0.218s,border 0.218s,box-shadow 0.218s;
+    position: absolute;
+    opacity: 0;
+    left: 0;
+    top: 0;
+}
+
+.microphone{
+    height: 87px;
+    /* pointer-events: none; */
+    position: absolute;
+    width: 42px;
+    top: 47px;
+    transform: scale(1);
+    left: 43px;
+}
+
+.receiver {
+    background-color: #999;
+    border-radius: 30px;
+    height: 46px;
+    left: 25px;
+    /* pointer-events: none; */
+    position: absolute;
+    width: 24px;
+}
+
+.wrapper {
+    bottom: 0;
+    height: 53px;
+    left: 11px;
+    overflow: hidden;
+    /* pointer-events: none; */
+    position: absolute;
+    width: 52px;
+}
+
+.stem {
+    background-color: #999;
+    bottom: 14px;
+    height: 14px;
+    left: 22px;
+    /* pointer-events: none; */
+    position: absolute;
+    width: 9px;
+    z-index: 1;
+}
+
+.shell {
+    border: 7px solid #999;
+    border-radius: 28px;
+    bottom: 27px;
+    height: 57px;
+    /* pointer-events: none; */
+    position: absolute;
+    width: 38px;
+    z-index: 0;
+    left: 0px;
+}
+
+#text-container {
+    /* pointer-events: none; */
+    position: absolute;
+}
+
+#text-container > span{
+    font-weight: normal;
+    line-height: 1.2;
+    opacity: 0;
+    /* pointer-events: none; */
+    position: absolute;
+    text-align: left;
+    transition: opacity .1s ease-in,margin-left .5s ease-in,top 0s linear 0.218s;
+    left: -44px;
+    top: -.2em;
+    margin-left: 44px;
+    font-size: 32px;
+    width: 460px;
+}
+
+#text-container > span:first-child{
+color:#70757a;
+}
+
+#text-container > span:first-child > a{
+    color: #1a0dab;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 500;
+    pointer-events: auto;
+    text-decoration: underline;
+}
+
+#text-container > span:last-child{
+    color:#000
+    }
+
+#google-logo-black{
+    background: url('../img/google-logo-black.png') no-repeat center;
+    background-size: 94px 32px;
+    height: 32px;
+    width: 94px;
+    top: 8px;
+    opacity: 0;
+    float: right;
+    left: 255px;
+    pointer-events: none;
+    position: relative;
+    transition: opacity .5s ease-in,left .5s ease-in;
+}
+
+#permission-bar{
+    margin-top: -100px;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    width: 500px;
+    transition: opacity 0.218s ease-in,margin-top .4s ease-in;
+}
+
+#permission-bar-gradient{
+    box-shadow: 0 1px 0px #4285f4;
+    height: 80px;
+    left: 0;
+    margin: 0;
+    opacity: 0;
+    /* pointer-events: none; */
+    position: fixed;
+    right: 0;
+    top: -80px;
+    transition: opacity 0.218s,box-shadow 0.218s;
+}
+
+
 
 /* _______________________________________________ footer ______________________________________ */
 
