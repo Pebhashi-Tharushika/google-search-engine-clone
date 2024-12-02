@@ -689,6 +689,11 @@ main>div:first-child>img {
     padding: 0;
 }
 
+#suggestion-container .suggestions > li:hover{
+    border-radius: 4px;
+    background-color: #f3f5f6;
+}
+
 #suggestion-container .suggestions > li>div{
     flex: auto;
     display: flex;
@@ -1545,6 +1550,10 @@ body.dark-theme #separator-line{
 
 body.dark-theme .suggestion-title{
     color: #e8eaed;
+}
+
+body.dark-theme #suggestion-container .suggestions > li:hover{
+    background-color: #3c4043;
 }
 
 body.dark-theme #bottom-part > #button-container> input{
