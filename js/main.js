@@ -52,23 +52,55 @@ window.addEventListener('load', () => {
 
 /* -------------------------- search-input -------------------------*/
 
+let isClikedInput = false;
+
 const inputWrapper = document.getElementById('input-wrapper');
 const searchInput = document.querySelector('#middle-div > textarea');
-const suggestions = document.getElementById('search-wrapper');
+const suggestions = document.getElementById('search-inner-wrapper');
+const startDiv = document.getElementById('start-div');
+console.log(startDiv);
 
+const verticalLine = document.querySelector('#btnclear-wrapper > span');
+const btnClear = document.querySelector('#btnclear-wrapper > div');
+
+//trending and recent search popup
 document.addEventListener('click', (event) => {
-    console.log('clicked');
-    if (searchInput.contains(event.target)) {
+    console.log(event.target);
+    if (searchInput.contains(event.target) || startDiv.contains(event.target)) {
+        console.log(searchInput.contains(event.target));
+        console.log(startDiv.contains(event.target));
+        if(!isClikedInput){
+        console.log('clicked');
         inputWrapper.classList.add('input-wrapper-active');
         suggestions.style.display = 'block';
+        isClikedInput = true;
+        }
     }else{
-        if(inputWrapper.classList.contains('input-wrapper-active')){
+        
+        console.log(searchInput.contains(event.target));
+        console.log(startDiv.contains(event.target));
+        console.log(inputWrapper.contains(event.target));
+        if(!inputWrapper.contains(event.target) && !searchInput.contains(event.target) && !startDiv.contains(event.target) && inputWrapper.classList.contains('input-wrapper-active')){
+            console.log('out clicked');
             inputWrapper.classList.remove('input-wrapper-active'); 
             suggestions.style.display = 'none'; 
+            isClikedInput =false;
         }
     }
 });
 
+// toggle clear icon appearance
+searchInput.addEventListener('input', () => {
+    if (searchInput.value === '') {
+        console.log('Textarea is empty');
+        verticalLine.style.display = 'none';
+        btnClear.style.display = 'none';
+    } else {
+        console.log('Textarea has content:', searchInput.value);
+        verticalLine.style.display = 'block';
+        btnClear.style.display = 'flex';
+    }
+});
 
 
 /* ----------------------- setting popup ------------------------- */
