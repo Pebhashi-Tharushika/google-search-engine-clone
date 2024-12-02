@@ -132,6 +132,7 @@ btnClearWrapper.addEventListener('click', () => {
     searchInput.value = '';
     searchInput.dispatchEvent(new Event('input'));
     showSearchPopup();
+    if(localStorage.getItem("theme") === 'dark')changeTheme(true);
     searchInput.focus();
 });
 
