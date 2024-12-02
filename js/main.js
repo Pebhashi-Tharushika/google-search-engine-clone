@@ -58,34 +58,44 @@ const inputWrapper = document.getElementById('input-wrapper');
 const searchInput = document.querySelector('#middle-div > textarea');
 const suggestions = document.getElementById('search-inner-wrapper');
 const startDiv = document.getElementById('start-div');
-console.log(startDiv);
 
 const verticalLine = document.querySelector('#btnclear-wrapper > span');
 const btnClear = document.querySelector('#btnclear-wrapper > div');
 
+const btnClearWrapper = document.getElementById('btnclear-wrapper');
+
+function showSearchPopup(){
+    inputWrapper.classList.add('input-wrapper-active');
+        suggestions.style.display = 'block';
+        isClikedInput = true;
+}
+
+function hideSearchPopup(){
+    inputWrapper.classList.remove('input-wrapper-active'); 
+            suggestions.style.display = 'none'; 
+            isClikedInput =false;
+}
 //trending and recent search popup
 document.addEventListener('click', (event) => {
+    if(btnClearWrapper.contains(event.target))return;
     console.log(event.target);
     if (searchInput.contains(event.target) || startDiv.contains(event.target)) {
         console.log(searchInput.contains(event.target));
         console.log(startDiv.contains(event.target));
         if(!isClikedInput){
         console.log('clicked');
-        inputWrapper.classList.add('input-wrapper-active');
-        suggestions.style.display = 'block';
-        isClikedInput = true;
+        showSearchPopup();
         }
-    }else{
+    }else if(!inputWrapper.contains(event.target) && !searchInput.contains(event.target) && 
+                !startDiv.contains(event.target) && inputWrapper.classList.contains('input-wrapper-active')){
         
         console.log(searchInput.contains(event.target));
         console.log(startDiv.contains(event.target));
         console.log(inputWrapper.contains(event.target));
-        if(!inputWrapper.contains(event.target) && !searchInput.contains(event.target) && !startDiv.contains(event.target) && inputWrapper.classList.contains('input-wrapper-active')){
+        
             console.log('out clicked');
-            inputWrapper.classList.remove('input-wrapper-active'); 
-            suggestions.style.display = 'none'; 
-            isClikedInput =false;
-        }
+            hideSearchPopup();
+        
     }
 });
 
@@ -100,6 +110,16 @@ searchInput.addEventListener('input', () => {
         verticalLine.style.display = 'block';
         btnClear.style.display = 'flex';
     }
+});
+
+//clear content in search bar
+btnClearWrapper.addEventListener('click', () => {
+    if (searchInput.value === '') return;
+    console.log('clear');
+    searchInput.value = '';
+    searchInput.dispatchEvent(new Event('input'));
+    showSearchPopup();
+    searchInput.focus();
 });
 
 
