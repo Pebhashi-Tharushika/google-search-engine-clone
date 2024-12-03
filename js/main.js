@@ -127,24 +127,68 @@ btnClearWrapper.addEventListener('click', () => {
 
 /* search by voice */
 
+let permissionState = 'denied';
+let isPrompt = false;
 let isSpeaking = false;
-let timeouts = []; 
+let timeoutsWithPermission = [];
+let timeoutsNoPermission = [];
+let timeoutsTurnedOff = [];
 
 const micIcon = document.getElementById('mic-icon');
 const dialog = document.querySelector('dialog');
 const btnCloseDialog = document.getElementById('btnClose');
-
 const mainContainer = document.getElementById('main-container');
-
 const txtInfoSpan = document.querySelectorAll('.txtInfo');
-
+const permissionBar = document.getElementById('permission-bar');
+const permissionBarGradient = document.getElementById('permission-bar-gradient');
 
 // Show dialog when mic icon is clicked
 micIcon.addEventListener('click', () => {
     dialog.showModal(); // Open the dialog
 
+    checkPermission(); // Check microphone accessibility
+
+    if (permissionState === 'granted') {
+        searchByVoice();
+    } else if(permissionState === 'prompt'){
+        waitForPermission();
+    }else if(permissionState === 'denied'){
+        displaySearchOff();
+    }
+});
+
+function checkPermission() {
+    navigator.permissions.query({ name: 'microphone' })
+        .then(function (permissionStatus) {
+            if (permissionStatus.state === 'prompt') {
+
+                permissionState = 'prompt';
+            } else if (permissionStatus.state === 'granted') {
+                permissionState = 'granted';
+            } else if(permissionState === 'denied'){
+                permissionState = 'denied';
+            }
+        })
+        .catch(function (error) {
+            console.log('Error checking microphone permission:', error);
+        });
+}
+
+// Function to request microphone access
+function requestMicrophonePermission() {
+    navigator.mediaDevices.getUserMedia({ audio: true })
+        .then(function (stream) {
+            permissionState = 'prompt';  // Permission granted
+        })
+        .catch(function (error) {
+            console.log('Microphone access denied', error); // Handle error or inform the user
+        });
+}
+
+// Process search by voice
+function searchByVoice() {
     // Add the timeout IDs to the array for later cancellation
-    timeouts.push(
+    timeoutsWithPermission.push(
         setTimeout(() => {
             mainContainer.classList.add('s2ml');
             txtInfoSpan.forEach((element) => element.classList.add('txtInfo2'));
@@ -171,15 +215,15 @@ micIcon.addEventListener('click', () => {
             }
         }, 10000)
     );
-});
+}
 
-
+// Listening... text typing effect
 function typeText(element, text) {
-    let index = 0; 
-    element.textContent = ''; 
+    let index = 0;
+    element.textContent = '';
 
     const interval = setInterval(() => {
-        element.textContent += text[index]; 
+        element.textContent += text[index];
         index++;
 
         if (index === text.length) {
@@ -188,28 +232,72 @@ function typeText(element, text) {
     }, 30);
 }
 
- // Clean up dynamic styles
+// Clean up dynamic styles
 function resetStyles() {
     mainContainer.classList.remove('s2ml', 's2er');
     txtInfoSpan.forEach((element) => {
         element.classList.remove('txtInfo2', 'txtInfo3');
-        element.textContent = ''; 
+        element.textContent = '';
     });
 }
 
 // Clear all timeouts
-function clearAllTimeouts() {
-    timeouts.forEach((timeoutId) => clearTimeout(timeoutId)); 
-    timeouts = []; 
+function clearAllTimeouts(timeouts) {
+    timeouts.forEach((timeoutId) => clearTimeout(timeoutId));
+    timeouts.length = 0;  // Empty the array
 }
-
 
 // Close dialog when btnClose is clicked
 btnCloseDialog.addEventListener('click', () => {
     resetStyles();
-    clearAllTimeouts();
+    clearAllTimeouts(timeoutsWithPermission);
+    clearAllTimeouts(timeoutsNoPermission);
+    clearAllTimeouts(timeoutsTurnedOff);
     dialog.close(); // Close the dialog
 });
+
+// Wait for permission after prompt
+function waitForPermission() {
+    timeoutsNoPermission.push(
+        setTimeout(() => {
+            txtInfoSpan.forEach((element) => element.classList.add('txtInfo2'));
+            txtInfoSpan[0].textContent = 'Waiting...';
+            if (permissionState === 'prompt') requestMicrophonePermission();  // Request permission if the state is "prompt" 
+        }, 200),
+
+        setTimeout(() => {
+            permissionBar.classList.add('not-permission');
+            permissionBarGradient.classList.add('not-permission');
+        }, 1000),
+
+        setTimeout(() => {
+            permissionBar.classList.remove('not-permission');
+            permissionBarGradient.classList.remove('not-permission');
+            txtInfoSpan[0].textContent = '';
+            txtInfoSpan.forEach((element) => element.classList.remove('txtInfo2'));
+            dialog.close();
+        }, 8000)
+    );
+}
+
+function displaySearchOff(){
+    timeoutsTurnedOff.push( setTimeout(()=>{
+        mainContainer.classList.add('s2er');
+        txtInfoSpan.forEach((element) => element.classList.add('txtInfo3'));
+        txtInfoSpan[0].innerHTML = `
+                Voice search has been turned off.
+                <a href="https://support.google.com/chrome/?p=ui_voice_search" target="_blank">Details</a>
+            `;
+    },218),
+
+    setTimeout(()=>{
+        mainContainer.classList.remove('s2er');
+        txtInfoSpan.forEach((element) => element.classList.remove('txtInfo3'));
+        txtInfoSpan[0].innerHTML = '';
+        dialog.close();
+    },5000)
+    );
+}
 
 
 /* ----------------------- setting popup ------------------------- */

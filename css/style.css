@@ -1179,11 +1179,25 @@ color:#70757a;
     left: 0;
     margin: 0;
     opacity: 0;
-    /* pointer-events: none; */
+    pointer-events: none;
     position: fixed;
     right: 0;
     top: -80px;
     transition: opacity 0.218s,box-shadow 0.218s;
+}
+
+.not-permission#permission-bar{
+    margin-top: -300px;
+    opacity: 1;
+    transition: opaity .5s ease-out 0.218s, margin-top 0.218s ease-out 0.218s;
+}
+
+.not-permission#permission-bar-gradient{
+    box-shadow: 0 1px 80px #4285f4;
+    opacity: 1;
+    animation-direction: alternate;
+    animation-timing-function: ease-out;
+
 }
 
 
