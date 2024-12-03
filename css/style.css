@@ -866,15 +866,36 @@ dialog > div{
     background: #fff;
     height: 100%;
     left: 0;
-    opacity: 0;
+    opacity: 0; /**/
     overflow: hidden;
     position: fixed;
     text-align: left;
     top: 0;
-    visibility: hidden;
+    visibility: hidden; /**/
     width: 100%;
     z-index: 10000;
     transition: visibility 0s linear 0.218s,background-color 0.218s;
+}
+
+/* Show dialog content when dialog is open */
+dialog[open] > div {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s;
+}
+
+dialog[open] > div #btn-container{
+    transform: scale(1);
+}
+dialog[open] > div #btn-container > span:last-child{
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1);
+}
+dialog[open] .txtInfo{
+    margin-left: 0;
+    opacity: 1;
+    /* transition: opacity .5s ease-out, margin-left .5s ease-out; */
 }
 
 dialog > div > #btnClose{
@@ -926,6 +947,7 @@ dialog > div > #btnClose > span > svg{
     max-width: 572px;
     min-width: 534px;
     padding: 0 223px;
+    box-sizing: content-box;
 }
 
 #inner-container{
@@ -937,7 +959,7 @@ dialog > div > #btnClose > span > svg{
 }
 
 #btn-container{
-    /* pointer-events: none; */
+    pointer-events: none;
     position: relative;
     transition: transform 0.218s,opacity 0.218s ease-in;
     transform: scale(.1);
@@ -953,7 +975,7 @@ dialog > div > #btnClose > span > svg{
     border-radius: 100%;
     display: inline-block;
     opacity: 1;
-    /* pointer-events: none; */
+    pointer-events: none;
     position: absolute;
     transform: scale(.01);
     transition: opacity 0.218s;
@@ -982,7 +1004,7 @@ dialog > div > #btnClose > span > svg{
 
 .microphone{
     height: 87px;
-    /* pointer-events: none; */
+    pointer-events: none;
     position: absolute;
     width: 42px;
     top: 47px;
@@ -995,7 +1017,7 @@ dialog > div > #btnClose > span > svg{
     border-radius: 30px;
     height: 46px;
     left: 25px;
-    /* pointer-events: none; */
+    pointer-events: none;
     position: absolute;
     width: 24px;
 }
@@ -1005,7 +1027,7 @@ dialog > div > #btnClose > span > svg{
     height: 53px;
     left: 11px;
     overflow: hidden;
-    /* pointer-events: none; */
+    pointer-events: none;
     position: absolute;
     width: 52px;
 }
@@ -1015,7 +1037,7 @@ dialog > div > #btnClose > span > svg{
     bottom: 14px;
     height: 14px;
     left: 22px;
-    /* pointer-events: none; */
+    pointer-events: none;
     position: absolute;
     width: 9px;
     z-index: 1;
@@ -1026,26 +1048,84 @@ dialog > div > #btnClose > span > svg{
     border-radius: 28px;
     bottom: 27px;
     height: 57px;
-    /* pointer-events: none; */
+    pointer-events: none;
     position: absolute;
     width: 38px;
     z-index: 0;
     left: 0px;
+    box-sizing: content-box;
 }
 
+.s2ml #inner-container, .s2ra #inner-container,
+.s2er #inner-container{
+    opacity: 1;
+    transition: opacity 0s;
+}
+
+/* s2ml */
+
+.s2ml .receiver, .s2ml .stem{
+    background-color: #f44;
+}
+
+.s2ml .shell{
+    border-color: #f44;
+}
+
+/* s2ra */
+.s2ra #btn-container > span:first-child{
+    transition: -webkit-transform 0.178s ease-in-out;
+    transform: scale(0.805399); 
+    /* todo: keyframe ekk dann */
+}
+
+.s2ra #btn-container > span:last-child{
+    background-color: #ea4335;
+    border: 0;
+    box-shadow: none;
+}
+
+.s2ra .shell{
+    border-color: #fff;
+}
+
+/* s2er */
+
+
+/* -- when dialog opens - text  */
+.txtInfo2.txtInfo{
+    top: -0.6em;
+}
+
+.txtInfo3.txtInfo{
+    top: -1.3em;
+}
+
+/* .txtInfo4 .txtInfo{
+
+} */
+
+.txtInfo2.txtInfo, 
+.txtInfo3.txtInfo 
+/* .txtInfo4 .txtInfo */
+{
+    transition: top 0.218s ease-out;
+}
+
+
 #text-container {
-    /* pointer-events: none; */
+    pointer-events: none;
     position: absolute;
 }
 
-#text-container > span{
+.txtInfo{
     font-weight: normal;
     line-height: 1.2;
     opacity: 0;
-    /* pointer-events: none; */
+    pointer-events: none;
     position: absolute;
     text-align: left;
-    transition: opacity .1s ease-in,margin-left .5s ease-in,top 0s linear 0.218s;
+    transition: opacity .1s ease-in,margin-left .5s ease-in, top 0s linear 0.218s;
     left: -44px;
     top: -.2em;
     margin-left: 44px;

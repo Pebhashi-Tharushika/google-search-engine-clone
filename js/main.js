@@ -64,41 +64,41 @@ const btnClear = document.querySelector('#btnclear-wrapper > div');
 
 const btnClearWrapper = document.getElementById('btnclear-wrapper');
 
-function changeTheme(isInside){
-    if(isInside){
+function changeTheme(isInside) {
+    if (isInside) {
         inputWrapper.classList.add('dark-input');
         searchInput.classList.add('dark-input');
-    }else{
+    } else {
         inputWrapper.classList.remove('dark-input');
         searchInput.classList.remove('dark-input');
     }
 }
 
-function showSearchPopup(){
+function showSearchPopup() {
     inputWrapper.classList.add('input-wrapper-active');
-        suggestions.style.display = 'block';
-        isClikedInput = true;
+    suggestions.style.display = 'block';
+    isClikedInput = true;
 }
 
-function hideSearchPopup(){
-    inputWrapper.classList.remove('input-wrapper-active'); 
-            suggestions.style.display = 'none'; 
-            isClikedInput =false;
+function hideSearchPopup() {
+    inputWrapper.classList.remove('input-wrapper-active');
+    suggestions.style.display = 'none';
+    isClikedInput = false;
 }
 //trending and recent search popup
 document.addEventListener('click', (event) => {
-    if(btnClearWrapper.contains(event.target))return;
+    if (btnClearWrapper.contains(event.target)) return;
 
     const currentTheme = localStorage.getItem("theme");
 
     if (searchInput.contains(event.target) || startDiv.contains(event.target)) {
-        if(!isClikedInput)showSearchPopup();
-        if(currentTheme === 'dark')changeTheme(true);
+        if (!isClikedInput) showSearchPopup();
+        if (currentTheme === 'dark') changeTheme(true);
 
-    }else if(!inputWrapper.contains(event.target) && !searchInput.contains(event.target) && 
-                !startDiv.contains(event.target) && inputWrapper.classList.contains('input-wrapper-active')){
-            hideSearchPopup();
-            if(currentTheme === 'dark')changeTheme(false);
+    } else if (!inputWrapper.contains(event.target) && !searchInput.contains(event.target) &&
+        !startDiv.contains(event.target) && inputWrapper.classList.contains('input-wrapper-active')) {
+        hideSearchPopup();
+        if (currentTheme === 'dark') changeTheme(false);
     }
 });
 
@@ -120,8 +120,95 @@ btnClearWrapper.addEventListener('click', () => {
     searchInput.value = '';
     searchInput.dispatchEvent(new Event('input'));
     showSearchPopup();
-    if(localStorage.getItem("theme") === 'dark')changeTheme(true);
+    if (localStorage.getItem("theme") === 'dark') changeTheme(true);
     searchInput.focus();
+});
+
+
+/* search by voice */
+
+let isSpeaking = false;
+let timeouts = []; 
+
+const micIcon = document.getElementById('mic-icon');
+const dialog = document.querySelector('dialog');
+const btnCloseDialog = document.getElementById('btnClose');
+
+const mainContainer = document.getElementById('main-container');
+
+const txtInfoSpan = document.querySelectorAll('.txtInfo');
+
+
+// Show dialog when mic icon is clicked
+micIcon.addEventListener('click', () => {
+    dialog.showModal(); // Open the dialog
+
+    // Add the timeout IDs to the array for later cancellation
+    timeouts.push(
+        setTimeout(() => {
+            mainContainer.classList.add('s2ml');
+            txtInfoSpan.forEach((element) => element.classList.add('txtInfo2'));
+            txtInfoSpan[0].textContent = 'Speak now';
+        }, 200),
+
+        setTimeout(() => typeText(txtInfoSpan[0], 'Listening...'), 2000),
+
+        setTimeout(() => {
+            mainContainer.classList.remove('s2ml');
+            mainContainer.classList.add('s2er');
+            txtInfoSpan.forEach((element) => element.classList.remove('txtInfo2'));
+            txtInfoSpan.forEach((element) => element.classList.add('txtInfo3'));
+            txtInfoSpan[0].innerHTML = `
+                Please check your microphone and audio levels.  
+                <a href="https://support.google.com/chrome/?p=ui_voice_search" target="_blank">Learn more</a>
+            `;
+        }, 8000),
+
+        setTimeout(() => {
+            if (!isSpeaking) {
+                resetStyles();
+                dialog.close();
+            }
+        }, 10000)
+    );
+});
+
+
+function typeText(element, text) {
+    let index = 0; 
+    element.textContent = ''; 
+
+    const interval = setInterval(() => {
+        element.textContent += text[index]; 
+        index++;
+
+        if (index === text.length) {
+            clearInterval(interval); // Stop the interval 
+        }
+    }, 30);
+}
+
+ // Clean up dynamic styles
+function resetStyles() {
+    mainContainer.classList.remove('s2ml', 's2er');
+    txtInfoSpan.forEach((element) => {
+        element.classList.remove('txtInfo2', 'txtInfo3');
+        element.textContent = ''; 
+    });
+}
+
+// Clear all timeouts
+function clearAllTimeouts() {
+    timeouts.forEach((timeoutId) => clearTimeout(timeoutId)); 
+    timeouts = []; 
+}
+
+
+// Close dialog when btnClose is clicked
+btnCloseDialog.addEventListener('click', () => {
+    resetStyles();
+    clearAllTimeouts();
+    dialog.close(); // Close the dialog
 });
 
 
@@ -369,7 +456,7 @@ const lblPlaceholder = document.querySelector('#desc-border-container>div:nth-ch
 frmTextarea.addEventListener('focus', () => {
     if (!isCloseButtonClicked) {
         lblPlaceholder.style.transform = 'scale(0)'; // Shrink out
-        lblPlaceholder.style.visibility = 'hidden'; 
+        lblPlaceholder.style.visibility = 'hidden';
         borderElms.forEach(elm => elm.classList.add('desc-border-container-focused'));
     }
 });
@@ -377,7 +464,7 @@ frmTextarea.addEventListener('focus', () => {
 // Blur event
 frmTextarea.addEventListener('blur', () => {
     if (!isCloseButtonClicked && frmTextarea.value === '') {
-        lblPlaceholder.style.visibility = 'visible'; 
+        lblPlaceholder.style.visibility = 'visible';
         lblPlaceholder.style.transform = 'scale(1)';
         borderElms.forEach(elm => elm.classList.remove('desc-border-container-focused'));
     }
@@ -396,13 +483,13 @@ menuItemFeedback.addEventListener('click', () => {
 btnClose.addEventListener('click', () => {
     // Set the flag to true to prevent blur behavior when the close button is clicked
     isCloseButtonClicked = true;
-    
+
     // Hide the label and textarea
     lblPlaceholder.style.visibility = 'hidden';
     lblPlaceholder.style.transform = 'scale(0)';
-    
+
     btnClose.classList.add('active');
-    
+
     // After hiding the feedback form, reset the flag and clear the textarea
     setTimeout(() => {
         frmTextarea.value = '';
@@ -410,10 +497,10 @@ btnClose.addEventListener('click', () => {
         isVisibleFeedbackForm = false;
         btnClose.classList.remove('active');
         borderElms.forEach(elm => elm.classList.remove('desc-border-container-focused'));
-        
+
         // Reset the flag after the feedback form is closed to allow normal behavior
         setTimeout(() => {
-            isCloseButtonClicked = false;   
+            isCloseButtonClicked = false;
         }, 250);
     }, 250);
 });
