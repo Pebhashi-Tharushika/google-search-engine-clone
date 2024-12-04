@@ -127,12 +127,12 @@ btnClearWrapper.addEventListener('click', () => {
 
 /* search by voice */
 
-let permissionState = 'denied';
-let isPrompt = false;
+// let permissionState = 'denied';
+// let isPrompt = false;
 let isSpeaking = false;
-let timeoutsWithPermission = [];
-let timeoutsNoPermission = [];
-let timeoutsTurnedOff = [];
+let searchingTimeouts = [];
+let waitingTimeouts = [];
+let turnedOffTimeouts = [];
 
 const micIcon = document.getElementById('mic-icon');
 const dialog = document.querySelector('dialog');
@@ -143,52 +143,115 @@ const permissionBar = document.getElementById('permission-bar');
 const permissionBarGradient = document.getElementById('permission-bar-gradient');
 
 // Show dialog when mic icon is clicked
-micIcon.addEventListener('click', () => {
+// micIcon.addEventListener('click', () => {
+//     dialog.showModal(); // Open the dialog
+
+//     checkPermission(); // Check microphone accessibility
+
+//     if (permissionState === 'granted') {
+//         searchByVoice();
+//     } else if(permissionState === 'prompt'){
+//         waitForPermission();
+//     }else if(permissionState === 'denied'){
+//         displaySearchOff();
+//     }
+// });
+
+// function checkPermission() {
+//     navigator.permissions.query({ name: 'microphone' })
+//         .then(function (permissionStatus) {
+//             console.log('permissionStatus - ',permissionStatus.state);
+//             if (permissionStatus.state === 'prompt') {
+//                 permissionState = 'prompt';
+//             } else if (permissionStatus.state === 'granted') {
+//                 permissionState = 'granted';
+//             } else if(permissionState === 'denied'){
+//                 permissionState = 'denied';
+//             }
+//         })
+//         .catch(function (error) {
+//             console.log('Error checking microphone permission:', error);
+//         });
+// }
+
+// // Function to request microphone access
+// function requestMicrophonePermission() {
+//     navigator.mediaDevices.getUserMedia({ audio: true })
+//         .then(function (stream) {
+            
+//         })
+//         .catch(function (error) {
+//             console.log('Microphone access denied', error); // Handle error or inform the user
+//         });
+// }
+
+let currentPermissionState = null;
+let isPermissionRequested = false;
+let previousPermissionState = null;
+
+// Show dialog when mic icon is clicked
+micIcon.addEventListener('click', async () => {
     dialog.showModal(); // Open the dialog
 
-    checkPermission(); // Check microphone accessibility
-
-    if (permissionState === 'granted') {
-        searchByVoice();
-    } else if(permissionState === 'prompt'){
-        waitForPermission();
-    }else if(permissionState === 'denied'){
-        displaySearchOff();
-    }
+    
+    await checkPermission(); // Check microphone accessibility
 });
 
-function checkPermission() {
-    navigator.permissions.query({ name: 'microphone' })
-        .then(function (permissionStatus) {
-            if (permissionStatus.state === 'prompt') {
+// Check permission state
+async function checkPermission() {
+    try {
+        previousPermissionState = currentPermissionState; // Store the previous permission state
+        const permissionStatus = await navigator.permissions.query({ name: 'microphone' });
+        currentPermissionState = permissionStatus.state; // 'granted', 'prompt', or 'denied'
 
-                permissionState = 'prompt';
-            } else if (permissionStatus.state === 'granted') {
-                permissionState = 'granted';
-            } else if(permissionState === 'denied'){
-                permissionState = 'denied';
-            }
-        })
-        .catch(function (error) {
-            console.log('Error checking microphone permission:', error);
-        });
+        console.log('Previous state:', previousPermissionState);
+    console.log('Current state:', currentPermissionState);
+    
+    if(previousPermissionState === 'prompt' && previousPermissionState!==currentPermissionState){
+        console.log("cleanup");
+        clearAllTimeouts(waitingTimeouts);
+        resetWaitingStyles();
+    }
+
+
+        if (currentPermissionState === 'granted') {
+            searchByVoice();
+        } else if (currentPermissionState === 'prompt' && !isPermissionRequested) {
+            waitForPermission();
+        } else if (currentPermissionState === 'denied') {
+            displaySearchOff();
+        }
+    } catch (error) {
+        console.error('Error checking microphone permission:', error);
+    }
 }
 
-// Function to request microphone access
-function requestMicrophonePermission() {
-    navigator.mediaDevices.getUserMedia({ audio: true })
-        .then(function (stream) {
-            permissionState = 'prompt';  // Permission granted
-        })
-        .catch(function (error) {
-            console.log('Microphone access denied', error); // Handle error or inform the user
-        });
+// Request microphone access
+async function requestMicrophonePermission() {
+    isPermissionRequested = true;
+    try {
+        await navigator.mediaDevices.getUserMedia({ audio: true });
+        // Immediately re-check permission state
+        await checkPermission();
+    } catch (error) {
+        console.error('Microphone access denied or failed:', error);
+        // Permission state may remain 'denied'
+        await checkPermission();
+    } finally {
+        isPermissionRequested = false; // Reset the flag
+    }
 }
+
+// Handle user choice after prompting
+async function handlePermissionChoice() {
+    await requestMicrophonePermission();
+}
+
 
 // Process search by voice
 function searchByVoice() {
     // Add the timeout IDs to the array for later cancellation
-    timeoutsWithPermission.push(
+    searchingTimeouts.push(
         setTimeout(() => {
             mainContainer.classList.add('s2ml');
             txtInfoSpan.forEach((element) => element.classList.add('txtInfo2'));
@@ -210,7 +273,7 @@ function searchByVoice() {
 
         setTimeout(() => {
             if (!isSpeaking) {
-                resetStyles();
+                resetSearchingStyles();
                 dialog.close();
             }
         }, 10000)
@@ -233,12 +296,25 @@ function typeText(element, text) {
 }
 
 // Clean up dynamic styles
-function resetStyles() {
+function resetSearchingStyles() {
     mainContainer.classList.remove('s2ml', 's2er');
     txtInfoSpan.forEach((element) => {
         element.classList.remove('txtInfo2', 'txtInfo3');
         element.textContent = '';
     });
+}
+
+function resetWaitingStyles(){
+    permissionBar.classList.remove('not-permission');
+            permissionBarGradient.classList.remove('not-permission');
+            txtInfoSpan[0].textContent = '';
+            txtInfoSpan.forEach((element) => element.classList.remove('txtInfo2'));
+}
+
+function resetTurnedOffStyles(){
+    mainContainer.classList.remove('s2er');
+        txtInfoSpan.forEach((element) => element.classList.remove('txtInfo3'));
+        txtInfoSpan[0].innerHTML = '';
 }
 
 // Clear all timeouts
@@ -249,39 +325,37 @@ function clearAllTimeouts(timeouts) {
 
 // Close dialog when btnClose is clicked
 btnCloseDialog.addEventListener('click', () => {
-    resetStyles();
-    clearAllTimeouts(timeoutsWithPermission);
-    clearAllTimeouts(timeoutsNoPermission);
-    clearAllTimeouts(timeoutsTurnedOff);
+    resetSearchingStyles();
+    clearAllTimeouts(searchingTimeouts);
+    clearAllTimeouts(waitingTimeouts);
+    clearAllTimeouts(turnedOffTimeouts);
     dialog.close(); // Close the dialog
 });
 
 // Wait for permission after prompt
 function waitForPermission() {
-    timeoutsNoPermission.push(
+    waitingTimeouts.push(
         setTimeout(() => {
             txtInfoSpan.forEach((element) => element.classList.add('txtInfo2'));
             txtInfoSpan[0].textContent = 'Waiting...';
-            if (permissionState === 'prompt') requestMicrophonePermission();  // Request permission if the state is "prompt" 
+            handlePermissionChoice();  // Request permission selection if the state is "prompt" 
         }, 200),
 
         setTimeout(() => {
+            console.log('gradient');
             permissionBar.classList.add('not-permission');
             permissionBarGradient.classList.add('not-permission');
         }, 1000),
 
         setTimeout(() => {
-            permissionBar.classList.remove('not-permission');
-            permissionBarGradient.classList.remove('not-permission');
-            txtInfoSpan[0].textContent = '';
-            txtInfoSpan.forEach((element) => element.classList.remove('txtInfo2'));
+            resetWaitingStyles();
             dialog.close();
         }, 8000)
     );
 }
 
 function displaySearchOff(){
-    timeoutsTurnedOff.push( setTimeout(()=>{
+    turnedOffTimeouts.push( setTimeout(()=>{
         mainContainer.classList.add('s2er');
         txtInfoSpan.forEach((element) => element.classList.add('txtInfo3'));
         txtInfoSpan[0].innerHTML = `
@@ -291,9 +365,7 @@ function displaySearchOff(){
     },218),
 
     setTimeout(()=>{
-        mainContainer.classList.remove('s2er');
-        txtInfoSpan.forEach((element) => element.classList.remove('txtInfo3'));
-        txtInfoSpan[0].innerHTML = '';
+        resetTurnedOffStyles();
         dialog.close();
     },5000)
     );
