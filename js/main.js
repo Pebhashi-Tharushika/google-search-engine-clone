@@ -127,8 +127,6 @@ btnClearWrapper.addEventListener('click', () => {
 
 /* search by voice */
 
-// let permissionState = 'denied';
-// let isPrompt = false;
 let isSpeaking = false;
 let searchingTimeouts = [];
 let waitingTimeouts = [];
@@ -142,49 +140,6 @@ const txtInfoSpan = document.querySelectorAll('.txtInfo');
 const permissionBar = document.getElementById('permission-bar');
 const permissionBarGradient = document.getElementById('permission-bar-gradient');
 
-// Show dialog when mic icon is clicked
-// micIcon.addEventListener('click', () => {
-//     dialog.showModal(); // Open the dialog
-
-//     checkPermission(); // Check microphone accessibility
-
-//     if (permissionState === 'granted') {
-//         searchByVoice();
-//     } else if(permissionState === 'prompt'){
-//         waitForPermission();
-//     }else if(permissionState === 'denied'){
-//         displaySearchOff();
-//     }
-// });
-
-// function checkPermission() {
-//     navigator.permissions.query({ name: 'microphone' })
-//         .then(function (permissionStatus) {
-//             console.log('permissionStatus - ',permissionStatus.state);
-//             if (permissionStatus.state === 'prompt') {
-//                 permissionState = 'prompt';
-//             } else if (permissionStatus.state === 'granted') {
-//                 permissionState = 'granted';
-//             } else if(permissionState === 'denied'){
-//                 permissionState = 'denied';
-//             }
-//         })
-//         .catch(function (error) {
-//             console.log('Error checking microphone permission:', error);
-//         });
-// }
-
-// // Function to request microphone access
-// function requestMicrophonePermission() {
-//     navigator.mediaDevices.getUserMedia({ audio: true })
-//         .then(function (stream) {
-            
-//         })
-//         .catch(function (error) {
-//             console.log('Microphone access denied', error); // Handle error or inform the user
-//         });
-// }
-
 let currentPermissionState = null;
 let isPermissionRequested = false;
 let previousPermissionState = null;
@@ -192,8 +147,6 @@ let previousPermissionState = null;
 // Show dialog when mic icon is clicked
 micIcon.addEventListener('click', async () => {
     dialog.showModal(); // Open the dialog
-
-    
     await checkPermission(); // Check microphone accessibility
 });
 
@@ -202,17 +155,16 @@ async function checkPermission() {
     try {
         previousPermissionState = currentPermissionState; // Store the previous permission state
         const permissionStatus = await navigator.permissions.query({ name: 'microphone' });
-        currentPermissionState = permissionStatus.state; // 'granted', 'prompt', or 'denied'
+        currentPermissionState = permissionStatus.state;
 
         console.log('Previous state:', previousPermissionState);
-    console.log('Current state:', currentPermissionState);
-    
-    if(previousPermissionState === 'prompt' && previousPermissionState!==currentPermissionState){
-        console.log("cleanup");
-        clearAllTimeouts(waitingTimeouts);
-        resetWaitingStyles();
-    }
+        console.log('Current state:', currentPermissionState);
 
+        if (previousPermissionState === 'prompt' && previousPermissionState !== currentPermissionState) {
+            console.log("cleanup");
+            clearAllTimeouts(waitingTimeouts);
+            resetWaitingStyles();
+        }
 
         if (currentPermissionState === 'granted') {
             searchByVoice();
@@ -231,14 +183,12 @@ async function requestMicrophonePermission() {
     isPermissionRequested = true;
     try {
         await navigator.mediaDevices.getUserMedia({ audio: true });
-        // Immediately re-check permission state
         await checkPermission();
     } catch (error) {
         console.error('Microphone access denied or failed:', error);
-        // Permission state may remain 'denied'
         await checkPermission();
     } finally {
-        isPermissionRequested = false; // Reset the flag
+        isPermissionRequested = false;
     }
 }
 
@@ -256,9 +206,12 @@ function searchByVoice() {
             mainContainer.classList.add('s2ml');
             txtInfoSpan.forEach((element) => element.classList.add('txtInfo2'));
             txtInfoSpan[0].textContent = 'Speak now';
+            recognizeVoiceAndSearch();
         }, 200),
 
-        setTimeout(() => typeText(txtInfoSpan[0], 'Listening...'), 2000),
+        setTimeout(() => {
+            typeText(txtInfoSpan[0], 'Listening...');
+        }, 2000),
 
         setTimeout(() => {
             mainContainer.classList.remove('s2ml');
@@ -272,10 +225,9 @@ function searchByVoice() {
         }, 8000),
 
         setTimeout(() => {
-            if (!isSpeaking) {
+                clearAllTimeouts(searchingTimeouts);
                 resetSearchingStyles();
                 dialog.close();
-            }
         }, 10000)
     );
 }
@@ -304,17 +256,17 @@ function resetSearchingStyles() {
     });
 }
 
-function resetWaitingStyles(){
+function resetWaitingStyles() {
     permissionBar.classList.remove('not-permission');
-            permissionBarGradient.classList.remove('not-permission');
-            txtInfoSpan[0].textContent = '';
-            txtInfoSpan.forEach((element) => element.classList.remove('txtInfo2'));
+    permissionBarGradient.classList.remove('not-permission');
+    txtInfoSpan[0].textContent = '';
+    txtInfoSpan.forEach((element) => element.classList.remove('txtInfo2'));
 }
 
-function resetTurnedOffStyles(){
+function resetTurnedOffStyles() {
     mainContainer.classList.remove('s2er');
-        txtInfoSpan.forEach((element) => element.classList.remove('txtInfo3'));
-        txtInfoSpan[0].innerHTML = '';
+    txtInfoSpan.forEach((element) => element.classList.remove('txtInfo3'));
+    txtInfoSpan[0].innerHTML = '';
 }
 
 // Clear all timeouts
@@ -354,22 +306,83 @@ function waitForPermission() {
     );
 }
 
-function displaySearchOff(){
-    turnedOffTimeouts.push( setTimeout(()=>{
+// display microphone is blocked
+function displaySearchOff() {
+    turnedOffTimeouts.push(setTimeout(() => {
         mainContainer.classList.add('s2er');
         txtInfoSpan.forEach((element) => element.classList.add('txtInfo3'));
         txtInfoSpan[0].innerHTML = `
                 Voice search has been turned off.
                 <a href="https://support.google.com/chrome/?p=ui_voice_search" target="_blank">Details</a>
             `;
-    },218),
+    }, 218),
 
-    setTimeout(()=>{
-        resetTurnedOffStyles();
-        dialog.close();
-    },5000)
+        setTimeout(() => {
+            resetTurnedOffStyles();
+            dialog.close();
+        }, 5000)
     );
 }
+
+// recognize voice
+function recognizeVoiceAndSearch(){
+
+// Check browser compatibility
+  if ('webkitSpeechRecognition' in window){
+    
+    const recognition = new webkitSpeechRecognition(); // Initialize speech recognition
+    recognition.continuous = false; // Recognize one result at a time
+    recognition.interimResults = true; // Return final results only
+    recognition.lang = 'en-US'; // Set language
+    recognition.start(); // Start recognition
+
+           // Detect when sound is detected
+        recognition.onsoundstart = (event) => {
+            clearAllTimeouts(searchingTimeouts);
+                resetSearchingStyles();
+
+                mainContainer.classList.add('s2ra');
+                txtInfoSpan.forEach((element) => element.classList.add('txtInfo2'));
+        };
+    
+
+    recognition.onresult = (event) => {
+
+            let transcript = '';
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+            const result = event.results[i];
+            transcript += result[0].transcript; // Append the recognized text
+            if (result.isFinal) {
+                console.log('Final recognized text:', transcript);
+
+                // reset styles and close dialog
+                mainContainer.classList.remove('s2ra');
+                txtInfoSpan.forEach((element) => element.classList.remove('txtInfo2'));
+                dialog.close();
+
+                window.location.href = `https://www.google.com/search?q=${encodeURIComponent(transcript)}`;
+            } else {
+                txtInfoSpan[0].textContent = transcript;
+            }
+        }
+    };
+ 
+    // Handle recognition errors
+    recognition.onerror = (event) => {
+      console.error('Speech recognition error:', event.error);
+      recognition.stop();
+    };
+  
+    // Stop recognition when completed
+    recognition.onend = () => {
+      console.log('Speech recognition ended.');
+    };
+  }else{
+    console.log('Speech recognition is not supported in your browser. Please use Google Chrome.');
+  }
+  
+}
+
 
 
 /* ----------------------- setting popup ------------------------- */

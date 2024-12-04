@@ -1073,16 +1073,50 @@ dialog > div > #btnClose > span > svg{
 }
 
 /* s2ra */
-.s2ra #btn-container > span:first-child{
-    transition: -webkit-transform 0.178s ease-in-out;
-    transform: scale(0.805399); 
-    /* todo: keyframe ekk dann */
+
+@keyframes scaleEffect {
+    0% {
+        transform: scale(0.01);
+        opacity: 0;
+    }
+    10%{
+        transform: scale(0.5);
+        opacity: 0.5;
+    }
+    30% {
+        transform: scale(0.7); 
+        opacity: 1;
+    }
+    50%{
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    70%{
+        transform: scale(0.7);
+        opacity: 1;
+    }
+    90%{
+        transform: scale(0.5);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(0.01);
+        opacity: 0;
+    }
+}
+
+.s2ra #btn-container > span:first-child {
+    animation: scaleEffect 1.5s ease-in-out infinite; /* Adjust duration as needed */
 }
 
 .s2ra #btn-container > span:last-child{
     background-color: #ea4335;
     border: 0;
     box-shadow: none;
+}
+
+.s2ra .receiver, .s2ra .stem{
+    background-color: #fff;
 }
 
 .s2ra .shell{
