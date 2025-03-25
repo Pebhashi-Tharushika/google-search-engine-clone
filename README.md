@@ -30,10 +30,15 @@ A clone of the **Google Search Engine** ([https://www.google.com/](https://www.g
 - **Google Web Services**
 
 
-
 ### Preview
 ![preview1](assets/preview1.gif)
 <br><br>
 ![preview2](assets/preview2.gif)
 <br><br>
 ![preview3](assets/preview3.gif)
+
+
+### License
+
+This project is open-source and available under the [MIT License](LICENSE).
+
