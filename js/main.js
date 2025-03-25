@@ -110,6 +110,7 @@ searchInput.addEventListener('input', () => {
     } else {
         verticalLine.style.display = 'block';
         btnClear.style.display = 'flex';
+        hideSearchPopup();
     }
 });
 
@@ -123,6 +124,83 @@ btnClearWrapper.addEventListener('click', () => {
     if (localStorage.getItem("theme") === 'dark') changeTheme(true);
     searchInput.focus();
 });
+
+const textarea = document.getElementById("search-input");
+const middleDiv = document.getElementById("middle-div");
+const form = document.querySelector("form");
+const formWrapper = document.getElementById("form-wrapper");
+
+
+let prevRows = 1; // Store previous row count
+
+function getWrappedLinesCount(textarea) {
+    const computedStyle = window.getComputedStyle(textarea);
+    const lineHeight = parseInt(computedStyle.lineHeight);
+    const textareaWidth = textarea.clientWidth - parseInt(computedStyle.paddingLeft) - parseInt(computedStyle.paddingRight);
+
+    const tempDiv = document.createElement("div");
+    tempDiv.style.position = "absolute";
+    tempDiv.style.visibility = "hidden";
+    tempDiv.style.whiteSpace = "pre-wrap";
+    tempDiv.style.wordWrap = "break-word";
+    tempDiv.style.width = `${textareaWidth}px`;
+    tempDiv.style.font = computedStyle.font;
+    document.body.appendChild(tempDiv);
+
+    let totalLines = 0;
+    let lines = textarea.value.split("\n"); // Get explicit new lines
+
+    for (let line of lines) {
+        tempDiv.textContent = line || " "; // Prevent empty string issues
+        let height = tempDiv.clientHeight;
+        totalLines += Math.max(1, Math.round(height / lineHeight)); // Count wrapped lines
+    }
+
+    document.body.removeChild(tempDiv);
+    return totalLines;
+}
+
+function adjustTextareaHeight() {
+    const lineHeight = parseInt(window.getComputedStyle(textarea).lineHeight);
+    const currentRows = getWrappedLinesCount(textarea);
+
+    if (prevRows > currentRows) {
+        // Reduce height when rows decrease
+        textarea.style.height = `${parseInt(textarea.style.height) - lineHeight}px`;
+        middleDiv.style.height = `${parseInt(middleDiv.style.height) - lineHeight}px`;
+    } else {
+        // Expand normally
+        textarea.style.height = "auto"; // Reset height to allow shrinking
+        textarea.style.height = `${textarea.scrollHeight}px`; // Fit content
+        middleDiv.style.height = `${textarea.scrollHeight + 11 + 8}px`;
+    }
+
+    textarea.rows = currentRows; // Update rows
+    prevRows = currentRows; // Store previous row count
+}
+
+textarea.addEventListener("input", function () {
+    adjustTextareaHeight(); // Ensure correct height update
+
+    // Adjust zIndex based on content size
+    if (textarea.rows > 2) {
+        formWrapper.style.zIndex = 2;
+    } else {
+        formWrapper.style.zIndex = 1;
+    }
+});
+
+
+
+
+
+textarea.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault(); // Prevent new line
+        form.submit(); // Submit form (Google search)
+    }
+});
+
 
 
 /* search by voice */
@@ -225,9 +303,9 @@ function searchByVoice() {
         }, 8000),
 
         setTimeout(() => {
-                clearAllTimeouts(searchingTimeouts);
-                resetSearchingStyles();
-                dialog.close();
+            clearAllTimeouts(searchingTimeouts);
+            resetSearchingStyles();
+            dialog.close();
         }, 10000)
     );
 }
@@ -325,62 +403,62 @@ function displaySearchOff() {
 }
 
 // recognize voice
-function recognizeVoiceAndSearch(){
+function recognizeVoiceAndSearch() {
 
-// Check browser compatibility
-  if ('webkitSpeechRecognition' in window){
-    
-    const recognition = new webkitSpeechRecognition(); // Initialize speech recognition
-    recognition.continuous = false; // Recognize one result at a time
-    recognition.interimResults = true; // Return final results only
-    recognition.lang = 'en-US'; // Set language
-    recognition.start(); // Start recognition
+    // Check browser compatibility
+    if ('webkitSpeechRecognition' in window) {
 
-           // Detect when sound is detected
+        const recognition = new webkitSpeechRecognition(); // Initialize speech recognition
+        recognition.continuous = false; // Recognize one result at a time
+        recognition.interimResults = true; // Return final results only
+        recognition.lang = 'en-US'; // Set language
+        recognition.start(); // Start recognition
+
+        // Detect when sound is detected
         recognition.onsoundstart = (event) => {
             clearAllTimeouts(searchingTimeouts);
-                resetSearchingStyles();
+            resetSearchingStyles();
 
-                mainContainer.classList.add('s2ra');
-                txtInfoSpan.forEach((element) => element.classList.add('txtInfo2'));
+            mainContainer.classList.add('s2ra');
+            txtInfoSpan.forEach((element) => element.classList.add('txtInfo2'));
         };
-    
 
-    recognition.onresult = (event) => {
+
+        recognition.onresult = (event) => {
 
             let transcript = '';
-        for (let i = event.resultIndex; i < event.results.length; i++) {
-            const result = event.results[i];
-            transcript += result[0].transcript; // Append the recognized text
-            if (result.isFinal) {
-                console.log('Final recognized text:', transcript);
+            for (let i = event.resultIndex; i < event.results.length; i++) {
+                const result = event.results[i];
+                transcript += result[0].transcript; // Append the recognized text
+                if (result.isFinal) {
+                    console.log('Final recognized text:', transcript);
 
-                // reset styles and close dialog
-                mainContainer.classList.remove('s2ra');
-                txtInfoSpan.forEach((element) => element.classList.remove('txtInfo2'));
-                dialog.close();
+                    // reset styles and close dialog
+                    mainContainer.classList.remove('s2ra');
+                    txtInfoSpan.forEach((element) => element.classList.remove('txtInfo2'));
+                    dialog.close();
 
-                window.location.href = `https://www.google.com/search?q=${encodeURIComponent(transcript)}`;
-            } else {
-                txtInfoSpan[0].textContent = transcript;
+                    window.location.href = `https://www.google.com/search?q=${encodeURIComponent(transcript)}`;
+                } else {
+                    txtInfoSpan[0].textContent = transcript;
+                }
             }
-        }
-    };
- 
-    // Handle recognition errors
-    recognition.onerror = (event) => {
-      console.error('Speech recognition error:', event.error);
-      recognition.stop();
-    };
-  
-    // Stop recognition when completed
-    recognition.onend = () => {
-      console.log('Speech recognition ended.');
-    };
-  }else{
-    console.log('Speech recognition is not supported in your browser. Please use Google Chrome.');
-  }
-  
+        };
+
+        // Handle recognition errors
+        recognition.onerror = (event) => {
+            console.error('Speech recognition error:', event.error);
+            recognition.stop();
+        };
+
+        // Stop recognition when completed
+        recognition.onend = () => {
+            console.log('Speech recognition ended.');
+        };
+    } else {
+        console.log('Speech recognition is not supported in your browser. Please use Google Chrome.');
+    }
+
 }
 
 

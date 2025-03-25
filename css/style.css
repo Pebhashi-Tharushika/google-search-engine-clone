@@ -422,6 +422,8 @@ main>div:first-child>img {
     flex: 1;
     width: 90%;
     justify-content: space-between;
+    transition: all 0.2s ease-in-out;
+    align-items: flex-start;
 }
 
 #input-wrapper:hover {
@@ -429,6 +431,7 @@ main>div:first-child>img {
     border-color: rgba(223, 225, 229, 0);
     background-color: #fff;
 }
+
 
 .input-wrapper-active {
     border-bottom-left-radius: 0 !important;
@@ -450,7 +453,7 @@ main>div:first-child>img {
 #middle-div {
     flex-wrap: wrap;
     flex: 1;
-    overflow-x: hidden;
+    overflow: hidden;
     border-bottom: 8px solid transparent;
     padding-top: 11px;
     cursor: text;
@@ -468,8 +471,10 @@ main>div:first-child>img {
     margin: 0;
     flex-grow: 1;
     flex: 100%;
-    overflow-x: hidden;
+    overflow: hidden;
 }
+
+
 
 #end-div {
     flex: 0 0 auto;
