@@ -190,14 +190,17 @@ textarea.addEventListener("input", function () {
 });
 
 
-
-
-
 textarea.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
         event.preventDefault(); // Prevent new line
         form.submit(); // Submit form (Google search)
     }
+});
+
+
+/* search by image */
+document.getElementById("camera-icon").addEventListener("click", function() {
+    window.location.href = "https://lens.google.com";
 });
 
 
