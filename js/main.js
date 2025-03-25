@@ -22,7 +22,6 @@ const logo = document.querySelector('main > div:first-child > img');
 window.addEventListener('load', () => {
 
     // for initial theme
-    console.log("initial - ", localStorage.getItem("theme"));
     const initialTheme = localStorage.getItem("theme") || "light";
     themeText.innerHTML = initialTheme === "light" ? "Dark theme: Off" : "Dark theme: On";
     themeImgSpan.innerHTML = initialTheme === "light"
@@ -235,11 +234,7 @@ async function checkPermission() {
         const permissionStatus = await navigator.permissions.query({ name: 'microphone' });
         currentPermissionState = permissionStatus.state;
 
-        console.log('Previous state:', previousPermissionState);
-        console.log('Current state:', currentPermissionState);
-
         if (previousPermissionState === 'prompt' && previousPermissionState !== currentPermissionState) {
-            console.log("cleanup");
             clearAllTimeouts(waitingTimeouts);
             resetWaitingStyles();
         }
@@ -372,7 +367,6 @@ function waitForPermission() {
         }, 200),
 
         setTimeout(() => {
-            console.log('gradient');
             permissionBar.classList.add('not-permission');
             permissionBarGradient.classList.add('not-permission');
         }, 1000),
